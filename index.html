@@ -1026,7 +1026,7 @@ const ELEMENTOS = [
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i) ^ clave.charCodeAt(i % clave.length);
     return JSON.parse(new TextDecoder().decode(bytes));
   }
-  const S = descifrar('FFYdCRpOGggJVl92Ry0CT0lMMgpRQ1Y6CFEBUToLVkkPJhlHQUc+Fk1fTTUHTS4BUQoEBwxBCQ0WT181D00QTU5QI1EBUR1HTkdBEAIAHkdCVgpRVVY+Gh1MURRJD0dOR1ZHIEdCVhtRVVYfDgFZFhpHWEdIR1ZHIAQcAApRElgJTRAPSUs9VkkPEU5fTwgHt8YBDBseCgAPX0sAVl8PKAkXDhAcHQBRElgJTRAPSUsvVkkPEU5fTw8bERkWHFZeTRYPSUsvt99dDBgAH0cTWBRRDFZITSUPX0sRVl8PEwUAHwsLB01fTRFQVVF7FgcQB0dQSRdHDkdUVjxRQ1YGTUkPAKrEFgRJCk5JTwBMTk0gDgAHHR1CURRJD0dOR1ZHKUdCVhtRVVYWAB5EHQ4KVkkPAE5fTzYBGE0OMlhQHxpeBwgWVl92Ry0UGKbDVAEcTxkTARdMUwUEVBRYpsEIBAYPWk82A1QXHAdMsNgKVBwNAABFDgoMBgpTFhVSHBYNBxsEFgRHBA4EA0ULGk8fDlQzAQdEFKrZEQFMAY7ly0UXVAEcTxEADh0NHwYWVKaXCwUGAhZAVkNRPB0XGxYNAxsAGQxCFkJFr9o/AazaTwIbCh1IUw0AVBZEABgATQAAVBwaCgAXUFEBUSQABgZYFwUKj+XIVAIarN0ADBxBFhpLVKeSJg0WGAQCHQsSC0tQQ1FuEg0EVAHuyA1FCQBOGA5THBEfDh1MUwwWAARPBEwBCAEHFw4XAFQTTwZDUwgWABdCRUQAAUUdt84RDhAdQ1NMUzoEABBfCwNeTQACVAscAh0cCBwBUwgJVDZCCUVJTRxOFw4XDlQTHAdfHEkREQvuyA1FHhBOGQoHDhhSCxZeFwxFGApeRQ0JHBAHGQYAGxUBVVNgEhsREUkNAABFBQwLBh0cVFQ4rMldGh0ABkkNAABFCBYaFazCAFpQQ1FhEkkpAQtMSUwJDEUeGA4HDk9SORZDBhpJVABBRQ8KDxcLT08gDgAHHR1CX0kAGEVdCQMIAl5OEQNTPBseQ1NIH0kKBgoDRzFJTwYBGgUGAQAdTUkPscg2GwsNCQMWTRYHERsWTlQiCgFCUwcKVABDRQkWCEUBBgsWAVpQQ1FdAQwIHQoPX04pAhZOBwYWGxFSAhZZEgUAB0VJAEwJDEUvGhsaCLfOChdMF0VFFwRJBEwQAwpOFwAdTwcHTxJeBxsKWEVURQAKHkUPBxsBAAdSCh0NFgVFGxdJAAJFCQBOGAAAT0gQURfu3ggWVAFIRQAETRYLGQ4dDkhdDU0XUwUQGgBeRUQpGAsPXUNTHxgTGxIWUwQEBhFIFkxNIAQcAApaQ1QaBhZfAQZeVAhEpsUXDgoCERxTRzkXHRBYAQAKXUkNCAkXDhAcHQBITx4HCgVIAElNPqaXFQURCBdHWE8WHAATrMJCSEkTHQBfCwkWTU04EQEGHF1eTxBCERsAT0Veps0HDAEBVEcgDgAHHR1CWkVFBAlCCANeTQEBGQYdCBtSRyBCH0BJVApfCkJFURYeFQFTDBgTHAAQL0sLGxFMOU5bRSACVBywzhYTCxwNCkkAGEVJCgEMAwIBVB8WHRAbCgFCHUkAGkVIFhwErtQBGE8WA1QcAB5PAQxFEAANFhlFDBYaBgBfTwQXHRwNFgdFHQtKCa/MHkUCG08QABoBCgFbEgdfVFlEWz8EGRAcEA4KU1sbUV8NTwBbJxBDAQ0cUUoHSkFaU1sBHxJDTUsY');
+  const S = descifrar('FFYdCRpOGggJVl92Ry0CT0lMMgpRQ1Y6CFEBUToLVkkPJhlHQUc+Fk1fTTUHTS4BUQoEBwxBCQ0WT181D00QTU5QI1EBUR1HTkdBEAIAHkdCVgpRVVY+Gh1MURRJD0dOR1ZHIEdCVhtRVVYfDgFZFhpHWEdIR1ZHIAQcAApRElgJTRAPSUs9VkkPEU5fTwgHt8YBDBseCgAPX0sAVl8PKAkXDhAcHQBRElgJTRAPSUsvVkkPEU5fTw8bERkWHFZeTRYPSUsvt99dDBgAH0cTWBRRDFZITSUPX0sRVl8PEwUAHwsLB01fTRFQVVF7FgcQB0dQSRdHDkdUVjxRQ1YGTUkPAKrEFgRJCk5JTwBMTk0gDgAHHR1CURRJD0dOR1ZHKUdCVhtRVVYWAB5EHQ4KVkkPAE5fTzYBGE0OMlhQHxpeBwgWVl92Ry0UGKbDVAEcTxkTARdMUwUEVBRYpsEIBAYPWk82A1QXHAdMsNgKVBwNAABFDgoMBgpTFhVSHBYNBxsEFgRHBA4EA0ULGk8fDlQzAQdEFKrZEQFMAY7ly0UXVAEcTxEADh0NHwYWVKaXCwUGAhZAVkNRPB0XGxYNAxsAGQxCFkJFr9o/AazaTwIbCh1IUw0AVBZEABgATQAAVBwaCgAXUFEBUSQABgZYFwUKj+XIVAIarN0ADBxBFhpLVKeSJg0WGAQCHQsSC0tQQ1FuEg0EVAHuyA1FCQBOGA5THBEfDh1MUwwWAARPBEwBCAEHFw4XAFQTTwZDUwgWABdCRUQAAUUdt84RDhAdQ1NMUzoEABBfCwNeTQACVAscAh0cCBwBUwgJVDZCCUVJTRxOFw4XDlQTHAdfHEkREQvuyA1FHhBOGQoHDhhSCxZeFwxFGApeRQ0JHBAHGQYAGxUBVVNgEhsREUkNAABFBQwLBh0cVFQ4rMldGh0ABkkNAABFCBYaFazCAFpQQ1FhEkkpAQtMSUwJDEUeGA4HDk9SORZDBhpJVABBRQ8KDxcLT08gDgAHHR1CX0kAGEVdCQMIAl5OEQNTPBseQ1NIH0kKBgoDRzFJTwYBGgUGAQAdTUkPscg2GwsNCQMWTRYHERsWTlQiCgFCUwcKVABDRQkWCEUBBgsWAVpQQ1FKGhsEEAQPX06nzCAdVAMSTwcXAhJDEkhFJABfCkwAHhELVBwcHQAXAFNBEkkAGRVEABYETQAAVAMGAREBQVEBURkXEQhECk5fTykBB08ABhEGClNAFh0EGABeRQgATQkPVC4dGx0VrM9IFwgBWEVOBAgETRAAG08QABpSHAYNEhoRBgoBRRVFAQodVA4AGwYdHFNIHUkAGEVCFwgAA0UKEU8fAAdSUxETF6rIFRYNAQlFAQROBwoeDhoTU1xPTVNFGBBDAB9FRSkbGg5aQ1QCAxJZElJFGQRfEQkWTU0jFR0HCl1eTxtEFhsXG14NCAWmxBcNGwMWHFRaIhZfEBwXHQoESUwICBcNAR0aAE9SBQZIBQwWVE1nptYVBBELBkZfTxEBGxLuwgZeVBNEAB4LCBZOXDkWAQEBRl8NEAYHBgAWRR+mzAcPEABTRycTGwZfHQZMWEVdCQMIAl5OEAAeBhoVAFMFIAYJXUkNCh4KQ0VSBx8SAVQRAxJeAFQ5VgtCEQ05T1tGMQNTHLfTDRJJHEkcVABBRQgKAAwAEwBTHxEACxpIAQYLVABDRQkWHQStxQAfTxEeTx1CHgsXEUVJAEwWGEUPBxsBAFhSHxZfHEkAGkVECwsJrswdVAMcTxcdAQBIAR8EGl8NWQVbPgQaAR0XDg1OQBoTX0lZHVt+EAIBDBxSWwZNQV1OQABdEgdbVhg=');
   const OFICIAL = S.oficial;
   // el podio arranca vacío: el enunciado solo habla del estaño y del cobre, sin más datos (Fali, 28-oct). El código de los
   // puestos fijos se queda por si vuelve a hacer falta
@@ -1059,19 +1059,23 @@ const ELEMENTOS = [
   const avisoFijo = (i) => aviso(`El ${ordM(i)} puesto es ${delNombre(EL.get(INICIAL[i]))}: ese premio ya se sabía.`);
   const nombreDe = (e) => `${e.es === 'plata' ? 'la' : 'el'} ${e.es} (${e.s})`;
   const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
-  // la lista es única: vale solo la oficial
+  // vale solo la oficial
   const valida = (lista) => Array.isArray(lista) && lista.length === 7 && lista.every((s, i) => s === OFICIAL[i]);
   const DE_LA_LISTA = new Set(OFICIAL);
   // los siete ganadores, en el orden que sea
   const losSiete = (lista) => lista.every((s) => DE_LA_LISTA.has(s)) && new Set(lista).size === 7;
   // el dato del enunciado: el estaño y el cobre, por ese orden, entre los cuatro últimos (del 4.º al 7.º)
   const cumple = (lista) => { const a = lista.indexOf('Sn'), b = lista.indexOf('Cu'); return a >= 3 && b >= 3 && a < b; };
-  // qué contesta el juego a una lista completa (Cowork): vale > no cumple el enunciado > los siete en otro orden > no cuadra.
+  // la lista buena, pero empezada en otro puesto: de las seis vueltas, solo dos cumplen el enunciado (Cowork; Fali, 28-oct)
+  const girada = (lista) => [1, 2, 3, 4, 5, 6].some((k) => lista.every((s, i) => s === OFICIAL[(i - k + 7) % 7]));
+  // qué contesta el juego a una lista completa (Cowork): vale > no cumple el enunciado > la buena empezada en otro puesto >
+  // los siete en otro orden > no cuadra.
   // Ya no hace falta el mensaje de las listas ordenadas: con el estaño antes que el cobre, ninguna lista que cumpla el
   // enunciado va por el abecedario ni por el número atómico creciente
   function veredicto(lista) {
     if (valida(lista)) return 'vale';
     if (!cumple(lista)) return 'enunciado';
+    if (girada(lista)) return 'girada';
     if (losSiete(lista)) return 'conjunto';
     return 'no';
   }
@@ -1372,6 +1376,7 @@ const ELEMENTOS = [
     sonar(sonidoFallo);
     const motivo = {
       enunciado: 'Así no cumple el enunciado: el estaño y el cobre, por ese orden, estuvieron entre los cuatro últimos.' + (losSiete(est.podio) ? ' ¡Pero son los siete!' : ''),
+      girada: S.girada,
       conjunto: S.conjunto,
     };
     decir((motivo[v] || 'No cuadra. Los premios no cayeron al azar.') +
@@ -1451,7 +1456,7 @@ const ELEMENTOS = [
     if (est.pistas < N_TEXTO) {
       est.pistas++;
       if (est.pistas === N_TEXTO) est.resaltar = true; // con la última pista de texto se iluminan los candidatos
-      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1] + (est.pistas === N_TEXTO ? ` <span class="nota">Te he iluminado en la tabla los ${N_BRILLAN} ganadores que faltan.</span>` : ''));
+      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1] + (est.pistas === N_TEXTO ? ` <span class="nota">Te he iluminado en la tabla ${N_BRILLAN === 7 ? 'los siete ganadores' : `los ${N_BRILLAN} ganadores que faltan`}.</span>` : ''));
       decir(frase('pista'));
       sonar('pista');
       cambiado();
