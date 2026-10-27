@@ -1,0 +1,1712 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Otros siete elementos</title>
+<meta name="description" content="Un acertijo de pensamiento lateral: los elementos químicos vuelven a un sorteo con siete premios. Solo se sabe quién quedó 2.º, 4.º y último. ¿Puedes proponer una lista de ganadores que tenga sentido?">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400&family=Alegreya+SC:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fondo:#eef6ff;--rejilla:#dde9f8;--papel:#fffdf6;--papel2:#f4efe2;--tinta:#2c2531;--tinta2:#564b61;
+  --acento:#7048e8;--oro:#ffd43b;--oro2:#f59f00;--rojo:#e03131;
+  --pixel:'Press Start 2P',ui-monospace,Menlo,Consolas,monospace;--texto:Alegreya,Georgia,'Times New Roman',serif;
+  --alc:#ff8787;--alt:#ffb35c;--tra:#ffe066;--pos:#a9e34b;--met:#63e6be;--nom:#74c0fc;--hal:#91a7ff;--gas:#c9a2ff;--lan:#ffa8d0;--act:#ef9cf2;
+  /* borde de píxel: cuatro barras, sin las esquinas */
+  --borde:0 -3px 0 0 var(--tinta),0 3px 0 0 var(--tinta),-3px 0 0 0 var(--tinta),3px 0 0 0 var(--tinta);
+  --borde2:0 -2px 0 0 var(--tinta),0 2px 0 0 var(--tinta),-2px 0 0 0 var(--tinta),2px 0 0 0 var(--tinta);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+/* sin ligaduras: en las letras de píxeles «fi» y «fl» salen como otra letra */
+body{margin:0;color:var(--tinta);font-family:var(--texto);font-size:17px;line-height:1.38;font-variant-ligatures:none;font-feature-settings:"liga" 0,"clig" 0;
+  background-color:var(--fondo);background-image:linear-gradient(var(--rejilla) 1px,transparent 1px),linear-gradient(90deg,var(--rejilla) 1px,transparent 1px);background-size:16px 16px}
+button{font:inherit;color:inherit;font-variant-ligatures:none}
+[hidden]{display:none!important}
+canvas.px{image-rendering:pixelated;image-rendering:crisp-edges}
+.envoltura{max-width:1140px;margin:0 auto;padding:10px 14px 18px}
+.cabecera{text-align:center;padding:4px 0 8px}
+.cabecera h1{font-family:var(--pixel);font-weight:400;font-size:clamp(18px,5.6vw,40px);line-height:1.5;margin:8px 0 6px;letter-spacing:1px;color:var(--papel);
+  text-shadow:2px 0 0 var(--tinta),-2px 0 0 var(--tinta),0 2px 0 var(--tinta),0 -2px 0 var(--tinta),2px 2px 0 var(--tinta),-2px -2px 0 var(--tinta),2px -2px 0 var(--tinta),-2px 2px 0 var(--tinta)}
+.continuacion{font-family:'Alegreya SC',var(--texto);font-weight:700;font-size:15px;letter-spacing:1px;color:var(--tinta2);margin:0 auto 4px}
+.continuacion a{color:var(--acento)}
+.lema{font-style:italic;color:var(--tinta2);margin:0 auto;max-width:560px}
+.caja{background:var(--papel);padding:14px;margin:3px 3px 16px;box-shadow:var(--borde)}
+.arriba{display:grid;grid-template-columns:minmax(0,1fr);column-gap:22px}
+@media (min-width:980px){.arriba{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:start}}
+/* ---- cartel ---- */
+.cartel{display:flex;gap:14px;align-items:center}
+.escena{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px}
+#cvPresentador{width:64px;height:96px}
+#cvBombo{width:72px;height:72px}
+@media (min-width:600px){#cvPresentador{width:96px;height:144px}#cvBombo{width:96px;height:96px}}
+/* en el móvil, el químico y el bombo en fila encima del texto, para que el texto use todo el ancho */
+@media (max-width:599px){.cartel{flex-direction:column;align-items:stretch;gap:10px}.escena{flex-direction:row;justify-content:center;align-items:flex-end;gap:22px}}
+/* el rótulo, en Alegreya SC como los de Crímenes: en la letra de píxeles la «Ó» mayúscula parece minúscula */
+.rotulo{font-family:'Alegreya SC',var(--texto);font-weight:700;font-size:17px;letter-spacing:1.5px;color:var(--acento);margin:0 0 8px;line-height:1.25}
+.bocadillo p{margin:0 0 8px}
+.bocadillo .pregunta{font-weight:700;margin:0}
+/* ---- podio ---- */
+.podio{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;align-items:end;--k:.72}
+@media (min-width:600px){.podio{gap:8px;--k:1}}
+.puesto{border:0;background:none;padding:3px 0 0;margin:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;min-width:0}
+.puesto .medalla{width:24px;height:33px;margin-bottom:4px}
+@media (min-width:600px){.puesto .medalla{width:32px;height:44px}}
+.losa{position:relative;width:calc(100% - 4px);max-width:78px;aspect-ratio:1;display:grid;place-items:center;background:var(--c,var(--papel2));box-shadow:var(--borde2);margin:2px 0 4px}
+.losa .s{font-family:var(--pixel);font-size:clamp(11px,3.3vw,22px)}
+.losa .n{position:absolute;top:3px;left:4px;font-family:var(--pixel);font-size:clamp(6px,1.6vw,9px)}
+.puesto.vacio .losa .s{color:#b5adc0}
+.losa .candado{position:absolute;top:-7px;right:-7px;width:15px;height:18px}
+.puesto.sel .losa{animation:parpadeo .8s steps(2) infinite}
+@keyframes parpadeo{50%{background:var(--oro);box-shadow:0 -2px 0 0 var(--oro2),0 2px 0 0 var(--oro2),-2px 0 0 0 var(--oro2),2px 0 0 0 var(--oro2)}}
+.puesto.destino .losa{outline:3px dashed var(--acento);outline-offset:3px}
+.puesto .nombre{font-size:13px;line-height:1.2;min-height:16px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* en la letra de píxeles el «º» queda pequeño y suelto («1. °»): el ordinal del escalón va en Alegreya */
+.puesto .escalon{width:100%;height:calc(var(--h) * var(--k));background:var(--e);box-shadow:var(--borde2);display:grid;place-items:center;font-weight:700;font-size:clamp(12px,3.4vw,16px);line-height:1;margin-top:4px}
+/* en el móvil, la letra de los nombres crece con la pantalla, para que «magnesio» quepa bajo su puesto (nota de Cowork) */
+@media (max-width:599px){.podio{gap:3px}.puesto .nombre{font-size:clamp(8px,2.6vw,11px);letter-spacing:-.2px}}
+.mensaje{min-height:50px;text-align:center;margin:14px 4px 4px;font-size:17px}
+.acciones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:8px auto 0;max-width:470px}
+.boton{border:0;background:var(--bg,#fff);padding:9px 12px;margin:3px;font-weight:700;font-size:16px;cursor:pointer;box-shadow:var(--borde);display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1.1}
+.boton .ico{font-size:17px;line-height:1}
+@media (max-width:599px){.acciones .boton{flex-direction:column;gap:3px;padding:8px 2px;font-size:15px}}
+.boton:active{transform:translateY(2px)}
+.boton:disabled{opacity:.45;cursor:default;transform:none}
+.boton:focus-visible,.el:focus-visible,.puesto:focus-visible,.mini-boton:focus-visible,.flechas button:focus-visible{outline:3px solid var(--acento);outline-offset:3px}
+.b-pista{--bg:#ffe066}.b-comprobar{--bg:#8ce99a}.b-solucion{--bg:#d0bfff}.b-deshacer{--bg:#a5d8ff}.b-reiniciar{--bg:#ffc9de}.b-sonido{--bg:#fff}
+.latido{animation:latido .5s steps(2) 6}
+@keyframes latido{50%{transform:translateY(-3px);background:#fff3bf}}
+.pista-caja{background:#fff9db;padding:10px 12px;margin:16px 3px 3px;box-shadow:0 -3px 0 0 var(--oro2),0 3px 0 0 var(--oro2),-3px 0 0 0 var(--oro2),3px 0 0 0 var(--oro2)}
+.pista-caja .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pista-caja .cab b{font-family:var(--pixel);font-size:11px;line-height:1.5;display:flex;align-items:center;gap:8px}
+.pista-caja .matraz{width:32px;height:32px;flex:none}
+.pista-caja p{margin:6px 0 2px}
+.cerrar{border:0;background:none;font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+.nota{font-size:15px;color:var(--tinta2)}
+/* ---- ficha del elemento elegido ---- */
+.ficha{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;min-height:86px;margin:2px 2px 14px;padding:8px 10px;background:var(--papel2);box-shadow:var(--borde2)}
+.ficha-vacia{grid-column:1/-1;margin:0;font-style:italic;color:var(--tinta2);text-align:center}
+.ficha-el{position:relative;width:66px;height:66px;background:var(--c);box-shadow:var(--borde2);display:grid;place-items:center;margin:2px}
+.ficha-el .s{font-family:var(--pixel);font-size:22px}
+.ficha-el .n{position:absolute;top:4px;left:5px;font-family:var(--pixel);font-size:8px}
+.ficha-nombre{font-size:22px;font-weight:700;line-height:1.1}
+.ficha-fam{font-size:14px;color:var(--tinta2)}
+.ficha .nota{margin:4px 0 0}
+.poner{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:15px}
+@media (max-width:599px){.ficha-fam .pg{display:none}.poner>span{flex-basis:100%}.ficha-nombre{font-size:20px}}
+.mini-boton{border:0;background:#fff;box-shadow:var(--borde2);margin:2px;padding:5px 8px;font-weight:700;font-size:15px;cursor:pointer;line-height:1.1}
+.mini-boton.principal{background:var(--oro)}
+.mini-boton:disabled{opacity:.4;cursor:default}
+.mini-boton small{font-weight:400;font-size:12px}
+.enlace{border:0;background:none;padding:0;color:var(--acento);text-decoration:underline;font-weight:700;cursor:pointer;font-size:inherit}
+.flechas{display:grid;grid-template-columns:repeat(3,30px);grid-template-rows:repeat(3,26px);gap:3px}
+.flechas button{border:0;background:#fff;box-shadow:var(--borde2);margin:0;padding:0;font-size:12px;cursor:pointer;line-height:1}
+.flechas button:disabled{opacity:.35;cursor:default}
+.flechas [data-mover="-1,0"]{grid-area:1/2}.flechas [data-mover="0,-1"]{grid-area:2/1}.flechas [data-mover="0,1"]{grid-area:2/3}.flechas [data-mover="1,0"]{grid-area:3/2}
+/* ---- tabla periódica ---- */
+.tabla{--cw:18px;display:grid;grid-template-columns:repeat(18,minmax(0,1fr));grid-template-rows:repeat(7,auto) calc(var(--cw) * .3) auto auto;gap:2px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.el{position:relative;border:0;padding:0;margin:0;aspect-ratio:1;background:var(--c);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(44,37,49,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;overflow:hidden;line-height:1}
+.el .s{font-family:var(--pixel);font-size:min(calc(var(--cw) * .38),19px)}
+.el .n{position:absolute;top:3px;left:3px;font-family:var(--pixel);font-size:min(calc(var(--cw) * .14),8px)}
+.el .nm{font-size:min(calc(var(--cw) * .21),12.5px);margin-top:5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 1px}
+.el .nm.largo{font-size:min(calc(var(--cw) * .18),10.5px)}
+.tabla.mini .n,.tabla.mini .nm,.tabla.media .nm{display:none}
+.tabla.media .s{margin-top:4px}
+.tabla.grande{gap:3px}
+.tabla.grande .el{aspect-ratio:1/1.08}
+.tabla.grande .el .s{margin-top:8px}
+.el.usado{opacity:.3}
+.el.brilla{box-shadow:inset 0 0 0 2px var(--oro2),inset 0 0 0 3px #fff;animation:chispa .35s steps(2) 8}
+@keyframes chispa{50%{background:#fff}}
+.el.elegido{box-shadow:inset 0 0 0 2px var(--tinta),0 0 0 2px var(--tinta);z-index:2;transform:scale(1.15)}
+.tabla.mini .el.elegido{transform:scale(1.3)}
+.hueco{aspect-ratio:1;background:var(--c);opacity:.6;display:grid;place-items:center;font-family:var(--pixel);font-size:min(calc(var(--cw) * .13),8px);box-shadow:inset 0 0 0 1px rgba(44,37,49,.4);overflow:hidden;text-align:center;line-height:1.4}
+.tabla.grande .hueco{aspect-ratio:1/1.08}
+.tabla.mini .hueco span{display:none}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:14px;font-size:14px}
+.leyenda i{display:inline-block;width:12px;height:12px;background:var(--c);box-shadow:inset 0 0 0 1px rgba(44,37,49,.6);margin-right:5px;vertical-align:-1px}
+/* ---- cómo se juega y pie ---- */
+.como summary{cursor:pointer;font-weight:700;font-size:19px}
+.como p{margin:6px 0}
+.pie-pagina{text-align:center;font-size:14px;color:var(--tinta2);padding:0 16px 26px;max-width:760px;margin:0 auto}
+.pie-pagina a{color:var(--acento)}
+/* ---- capas: premio y avisos ---- */
+.capa{position:fixed;inset:0;z-index:40;background:rgba(44,37,49,.5);display:grid;place-items:center;padding:12px;overflow:auto}
+.capa>.caja{max-width:640px;width:100%;margin:0;text-align:center;padding:12px}
+.capa h2{font-family:var(--pixel);font-weight:400;font-size:15px;line-height:1.5;margin:4px 0 10px}
+.capa p{margin:6px 0}
+.pie{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.premio-tit{font-family:var(--pixel);font-size:clamp(20px,6vw,32px);margin:8px 0 14px;color:var(--oro);
+  text-shadow:2px 0 0 var(--tinta),-2px 0 0 var(--tinta),0 2px 0 var(--tinta),0 -2px 0 var(--tinta),2px 2px 0 var(--tinta),-2px -2px 0 var(--tinta),2px -2px 0 var(--tinta),-2px 2px 0 var(--tinta)}
+.panel{--tk:clamp(21px,6.9vw,44px);display:inline-block;background:#e9dfc4;padding:8px 10px 10px;box-shadow:var(--borde);margin:4px 3px 12px;max-width:100%;text-align:left}
+.panel-fila{display:flex;gap:3px;margin:3px 0}
+.panel-fila:nth-child(2){margin-left:calc(var(--tk) * .3)}
+.panel-fila:nth-child(3){margin-left:calc(var(--tk) * .8)}
+.pieza{position:relative;width:var(--tk);height:var(--tk);background:#fffdf6;box-shadow:inset 0 0 0 2px var(--tinta),inset 0 -4px 0 0 #d8ccad;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--tk) * .08);font-family:var(--pixel);font-size:calc(var(--tk) * .3);line-height:1;padding-bottom:3px}
+.pieza small{font-size:calc(var(--tk) * .19);line-height:1}
+.pieza small:empty{display:none}
+.pieza.on{background:var(--c);animation:pulsa .3s steps(2)}
+@keyframes pulsa{50%{transform:translateY(-4px)}}
+.vuelo,.fantasma{position:fixed;left:0;top:0;z-index:60;background:var(--c);box-shadow:inset 0 0 0 2px var(--tinta);display:grid;place-items:center;font-family:var(--pixel);pointer-events:none}
+.vuelo{transform-origin:0 0;transition:transform .45s cubic-bezier(.3,.7,.4,1)}
+.fantasma{width:46px;height:46px;font-size:15px;opacity:.92}
+body.arrastrando,body.arrastrando *{cursor:grabbing!important}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:70}
+#toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%) translateY(20px);background:var(--tinta);color:#fff;padding:10px 16px;
+  max-width:min(92vw,520px);font-size:16px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;text-align:center}
+#toast.ver{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="envoltura">
+<header class="cabecera">
+  <h1 id="titulo" aria-label="Otros siete elementos">Otros siete elementos</h1>
+  <p class="continuacion">La continuación de <a href="https://juniopuzzles.wordpress.com/2026/10/25/siete-elementos/">«Siete elementos»</a>, de Junio Puzzles</p>
+  <p class="lema">Un acertijo de pensamiento lateral. Siete premios, tres datos y una lógica escondida.</p>
+</header>
+<div class="arriba">
+  <section class="caja cartel" aria-label="El sorteo">
+    <div class="escena"><canvas id="cvPresentador" class="px" width="32" height="48" aria-hidden="true"></canvas><canvas id="cvBombo" class="px" width="48" height="48" aria-hidden="true"></canvas></div>
+    <div class="bocadillo">
+      <p class="rotulo">Gran sorteo de los elementos</p>
+      <p>Los elementos químicos volvieron a participar en un sorteo, y otra vez hubo siete ganadores.</p>
+      <p>Lo único que se sabe es que el <b>xenón</b> fue el segundo premiado; el <b>vanadio</b>, el cuarto, y el <b>magnesio</b>, el último.</p>
+      <p class="pregunta">¿Podrías proponer una lista de ganadores, en orden, que tenga sentido?</p>
+    </div>
+  </section>
+  <section class="caja" aria-label="El podio">
+    <div class="podio" id="podio"></div>
+    <p class="mensaje" id="msg" aria-live="polite"></p>
+    <div class="acciones">
+      <button class="boton b-pista" id="bPista"><span class="ico">💡</span>Pista</button>
+      <button class="boton b-comprobar" id="bComprobar"><span class="ico">✔</span>Comprobar</button>
+      <button class="boton b-solucion" id="bSolucion"><span class="ico">🔑</span>Solución</button>
+      <button class="boton b-deshacer" id="bDeshacer"><span class="ico">↩</span>Deshacer</button>
+      <button class="boton b-reiniciar" id="bReiniciar"><span class="ico">⟲</span>Reiniciar</button>
+      <button class="boton b-sonido" id="bSonido"><span class="ico">🔊</span>Sonido</button>
+    </div>
+    <div class="pista-caja" id="pistaCaja" aria-live="polite" hidden></div>
+  </section>
+</div>
+<section class="caja" aria-label="La tabla periódica">
+  <div class="ficha" id="ficha"></div>
+  <div class="tabla" id="tabla"></div>
+  <div class="leyenda" id="leyenda"></div>
+</section>
+<section class="caja como">
+  <details open><summary>Cómo se juega</summary>
+    <p>• Toca un puesto libre del podio y después un elemento de la tabla periódica, o al revés. En el ordenador también puedes arrastrar. Toca un puesto ocupado para vaciarlo.</p>
+    <p>• El xenón (2.º), el vanadio (4.º) y el magnesio (7.º) ya están en su sitio. Un elemento no puede ganar dos veces.</p>
+    <p>• Al completar el podio, o al pulsar <b>✔ Comprobar</b>, sabrás si la lista vale, pero no qué casilla falla.</p>
+    <p>• <b>💡 Pista</b> te ayuda un poco más cada vez que la pulsas. <b>🔑 Solución</b> enseña una lista que vale.</p>
+    <p>• Hay muchas listas posibles: basta con que la tuya siga la lógica del sorteo.</p>
+  </details>
+</section>
+</div>
+<footer class="pie-pagina">Basado en el acertijo <a href="https://juniopuzzles.wordpress.com/2026/10/25/siete-elementos/">«Siete elementos»</a>, de Junio Puzzles. Variante, arte y textos: Spider (Fali + Claude), 2026.</footer>
+<div class="capa" id="premio" hidden>
+  <div class="caja" role="dialog" aria-modal="true" aria-labelledby="premioTit">
+    <p class="premio-tit" id="premioTit">¡PREMIO!</p>
+    <div class="panel" id="panel" aria-hidden="true"></div>
+    <div id="premioTxt" aria-live="polite"></div>
+    <div class="pie" id="premioPie" hidden><button class="boton" id="bCerrarPremio">Cerrar</button><button class="boton b-reiniciar" id="bOtraVez">⟲ Jugar otra vez</button></div>
+  </div>
+</div>
+<div class="capa" id="modal" hidden><div class="caja" id="modalCaja" role="dialog" aria-modal="true"></div></div>
+<div id="vuelos"></div>
+<canvas id="fx"></canvas>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+// Arte de «Otros siete elementos»: pixel art de 16 bits sobre fondos claros, con contorno de 1 px en tinta.
+// Figuras planas y centradas en su lienzo, sin sombra proyectada: el sombreado va DENTRO del sprite.
+//
+// JavaScript plano de navegador, sin módulos: define PALETA, SPRITES y dibujarSprite().
+// Cada frame es un array de h cadenas de w caracteres; cada carácter es una clave de PALETA o «.» (transparente).
+// Se dibuja a 1x; escálalo por CSS con «image-rendering: pixelated».
+//
+// GENERADO por arte/fuente/construir.js: si cambias un sprite, cámbialo en arte/fuente y vuelve a construir.
+//
+// Sprites (nombre: tamaño · frames):
+//   presentador: 32×48 · quieto, habla, celebra
+//   bombo: 48×48 · g0, g1, g2 · bucle g0 → g1 → g2 → g0
+//   medalla1: 16×22 · f
+//   medalla2: 16×22 · f
+//   medalla3: 16×22 · f
+//   roseta4: 16×22 · f
+//   roseta5: 16×22 · f
+//   roseta6: 16×22 · f
+//   roseta7: 16×22 · f
+//   candado: 10×12 · f
+//   matraz: 16×16 · f0, f1 · bucle f0 → f1 → f0
+//
+// Medallas y rosetas llevan además «centro: { x, y, d }»: el centro de su disco liso, en px del lienzo sin
+// escalar (multiplícalo por tu escala), y su diámetro, para poner el número encima en HTML.
+
+const PALETA = {
+  // Paleta de partida:
+  k: '#2c2531', // tinta: contorno de 1 px, rasgos de la cara, ojo del candado
+  w: '#ffffff', // blanco: bata, brillos, botón de las rosetas
+  c: '#fffdf6', // crema (libre: ningún sprite la usa)
+  g: '#dfe3ee', // gris claro: sombra de la bata, boca del matraz
+  G: '#a3a9bd', // gris: solapas, botones y bolsillo de la bata
+  D: '#5d6178', // gris oscuro (libre: ningún sprite lo usa)
+  s: '#ffd2a8', // piel
+  S: '#f0ad7e', // piel en sombra
+  h: '#7a4a2a', // pelo castaño, zapatos
+  H: '#a86b3c', // mechones claros del pelo, tapón de corcho, brillo de los zapatos
+  y: '#ffd43b', // oro: jaula del bombo, medalla de oro, candado
+  Y: '#f59f00', // oro oscuro: varillas de delante, sombra del oro
+  o: '#ff922b', // naranja: bola
+  r: '#ff6b6b', // rojo: pajarita, soporte y manivela del bombo, cinta de las medallas, bola
+  R: '#e03131', // rojo oscuro: sombra del rojo, boca abierta
+  p: '#f783ac', // rosa: roseta 7, probeta, bola
+  v: '#b197fc', // violeta: roseta 6, bola
+  V: '#7048e8', // violeta oscuro: sombra del violeta
+  b: '#74c0fc', // azul claro: camisa, roseta 4, bola
+  B: '#1c7ed6', // azul: pantalón, sombra de la roseta 4 y de la bola azul
+  t: '#63e6be', // turquesa: bola
+  e: '#51cf66', // verde: roseta 5, líquido del matraz, bola
+  E: '#2f9e44', // verde oscuro: sombra del verde y del turquesa
+  l: '#c0eb75', // lima: pliegues claros de la roseta 5, superficie y burbujas del líquido
+  i: '#ced4da', // plata: medalla de plata, arco del candado, eje y manivela del bombo
+  I: '#868e96', // plata oscura: sombra de la plata
+  n: '#e8a067', // bronce: medalla de bronce
+  N: '#b3611c', // bronce oscuro: sombra del bronce y de la bola naranja
+  // Añadidas para este juego:
+  a: '#d0ebff', // cristal (azul muy pálido): lentes de las gafas, vidrio del matraz, pliegues claros de la roseta 4
+  z: '#ffa8a8', // rubor de las mejillas
+  u: '#fff3bf', // oro pálido: brillos del oro, varillas de detrás de la jaula
+  P: '#d6336c', // rosa oscuro: sombra del rosa
+  f: '#f7c59f', // bronce claro: brillo del bronce
+  q: '#d0bfff', // violeta claro: pliegues claros de la roseta 6
+  j: '#fcc2d7', // rosa claro: pliegues claros de la roseta 7
+  A: '#1864ab', // azul oscuro: sombra del pantalón
+};
+
+const SPRITES = {
+  presentador: {
+    w: 32, h: 48,
+    frames: {
+      quieto: [
+        '...........k......kk............',
+        '.......k..khk....khhk..kk.......',
+        '......khkkhHhkkkkhHhkkkhhkk.....',
+        '.....kkhhhHhhhhhhHhhhhhhkkhk....',
+        '....khkhhHHhhhhhHhhhhhhhhhhk....',
+        '....khhhHHhhhhhhhhhhhhhHhhhhk...',
+        '...khhhHhhhhhhhhhhhhhhhhhhhhk...',
+        '....khhhhhhhhhhhhhhhhhhhhhhhhk..',
+        '....khhhhhhshhhshhhhshhhhhhhk...',
+        '.....khhhhssshssshhsssshhhhk....',
+        '......khhsskkksssskkksshhhk.....',
+        '.......kkskwaakkkkwaakskhk......',
+        '........kskakaksskakakSkk.......',
+        '........kskakaksskakakSk........',
+        '........ksskkksssskkksSk........',
+        '........kszzsssSSssszzSk........',
+        '.........ksssskssksssSk.........',
+        '..........ksssskksssSk..........',
+        '...........ksssssssSk...........',
+        '............kkSSSSkk............',
+        '..........kkwwSSSSwwkk..........',
+        '.......kkkwwGrrbbrrGwwkkk.......',
+        '......kwgkwwGrrRRrrGwgkwgk......',
+        '.....kwwgkwwGRRbbRRGwgkwggk.....',
+        '.....kwwgkwwwGwbbwGwwgkwggk.....',
+        '.....kwwgkwwwwGwwGwkkgkwggk.....',
+        '.....kwwgkwwwwwGgwkHHkkwggk.....',
+        '.....kwwgkwwwwwwgwkaakkwggk.....',
+        '.....kwwgkwwwwwwgwkppkkwggk.....',
+        '.....kwwgkwwwwwwgGGGGGkwggk.....',
+        '.....kwwgkwwwwwGggwwwwkwggk.....',
+        '.....kwwgkwwwwwwggwwwwkwggk.....',
+        '.....kggGkwwwwwwggggggkgGGk.....',
+        '.....kssskwwwwwwgwwwwgksssk.....',
+        '.....kssskwwwwwGgwwwwgkssSk.....',
+        '......ksskwwwwwwgwwwwgksSk......',
+        '.......kkwwwwwwwgwwwwggkk.......',
+        '.......kwwwwwwwwgwwwwgggk.......',
+        '.......kggggggggggggggggk.......',
+        '........kkkBBBAkkBBBAkkk........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '.........khHHhhkkhhHHhk.........',
+        '.........khhhhhkkhhhhhk.........',
+        '.........khhhhhkkhhhhhk.........',
+        '..........kkkkk..kkkkk..........',
+      ],
+      habla: [
+        '...........k......kk............',
+        '.......k..khk....khhk..kk.......',
+        '......khkkhHhkkkkhHhkkkhhkk.....',
+        '.....kkhhhHhhhhhhHhhhhhhkkhk....',
+        '....khkhhHHhhhhhHhhhhhhhhhhk....',
+        '....khhhHHhhhhhhhhhhhhhHhhhhk...',
+        '...khhhHhhhhhhhhhhhhhhhhhhhhk...',
+        '....khhhhhhhhhhhhhhhhhhhhhhhhk..',
+        '....khhhhhhshhhshhhhshhhhhhhk...',
+        '.....khhhhssshssshhsssshhhhkkk..',
+        '......khhsskkksssskkksshhhkkssk.',
+        '.......kkskwaakkkkwaakskhkkssssk',
+        '........kskakaksskakakSkkksssssk',
+        '........kskakaksskakakSk..ksssSk',
+        '........ksskkksssskkksSk...ksSk.',
+        '........kszzsssSSssszzSk..kggGk.',
+        '.........ksssskkkksssSk...kwggk.',
+        '..........kssskRRkssSk....kwggk.',
+        '...........kssskkssSk.....kwggk.',
+        '............kkSSSSkk.....kwwggk.',
+        '..........kkwwSSSSwwkk.kkwwwggk.',
+        '.......kkkwwGrrbbrrGwwkwwwwggk..',
+        '......kwgkwwGrrRRrrGwgkwwwggk...',
+        '.....kwwgkwwGRRbbRRGwgkwwgkk....',
+        '.....kwwgkwwwGwbbwGwwgkwgk......',
+        '.....kwwgkwwwwGwwGwkkggkk.......',
+        '.....kwwgkwwwwwGgwkHHkgk........',
+        '.....kwwgkwwwwwwgwkaakgk........',
+        '.....kwwgkwwwwwwgwkppkgk........',
+        '.....kwwgkwwwwwwgGGGGGGk........',
+        '.....kwwgkwwwwwGggwwwwgk........',
+        '.....kwwgkwwwwwwggwwwwgk........',
+        '.....kggGkwwwwwwgggggggk........',
+        '.....kssskwwwwwwgwwwwggk........',
+        '.....kssskwwwwwGgwwwwgggk.......',
+        '......ksskwwwwwwgwwwwgggk.......',
+        '.......kkwwwwwwwgwwwwgggk.......',
+        '.......kwwwwwwwwgwwwwgggk.......',
+        '.......kggggggggggggggggk.......',
+        '........kkkBBBAkkBBBAkkk........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '.........khHHhhkkhhHHhk.........',
+        '.........khhhhhkkhhhhhk.........',
+        '.........khhhhhkkhhhhhk.........',
+        '..........kkkkk..kkkkk..........',
+      ],
+      celebra: [
+        '...........k......kk............',
+        '.......k..khk....khhk..kk.......',
+        '......khkkhHhkkkkhHhkkkhhkk.....',
+        '.....kkhhhHhhhhhhHhhhhhhkkhk....',
+        '....khkhhHHhhhhhHhhhhhhhhhhk....',
+        '....khhhHHhhhhhhhhhhhhhHhhhhk...',
+        '...khhhHhhhhhhhhhhhhhhhhhhhhk...',
+        '..kkkhhhhhhhhhhhhhhhhhhhhhhhkk..',
+        '.ksskhhhhhhshhhshhhhshhhhhhkssk.',
+        'ksssskhhhhssshssshhsssshhhkssssk',
+        'kssssskhhsskkksssskkksshhksssssk',
+        'kssssk.kkskwaakkkkwaakskhkksssSk',
+        '.kSssk..kskakaksskakakSkk.kssSk.',
+        '.kggGk..kskkakksskkakkSk..kgGGk.',
+        '.kwwgk..ksskkksssskkksSk..kwggk.',
+        '..kwwgk.kszzsssSSssszzSk.kwggk..',
+        '..kwwgk..kssskkkkkkssSk..kwggk..',
+        '...kwwgk..ksskwwwwksSk..kwggk...',
+        '...kwwgk...ksskRRksSk...kwggk...',
+        '....kwwgk...kkSSSSkk...kwggk....',
+        '....kwwgkkkkwwSSSSwwkkkkwggk....',
+        '.....kwwggkwGrrbbrrGwkwwggk.....',
+        '......kwwgkwGrrRRrrGwkwggk......',
+        '.......kwgkwGRRbbRRGwkwgk.......',
+        '........kkwwwGwbbwGwwgkk........',
+        '........kwwwwwGwwGwkkggk........',
+        '........kwwwwwwGgwkHHkgk........',
+        '........kwwwwwwwgwkaakgk........',
+        '........kwwwwwwwgwkppkgk........',
+        '........kwwwwwwwgGGGGGGk........',
+        '........kwwwwwwGggwwwwgk........',
+        '........kwwwwwwwggwwwwgk........',
+        '........kwwwwwwwgggggggk........',
+        '........kwwwwwwwgwwwwggk........',
+        '.......kwwwwwwwGgwwwwgggk.......',
+        '.......kwwwwwwwwgwwwwgggk.......',
+        '.......kwwwwwwwwgwwwwgggk.......',
+        '.......kwwwwwwwwgwwwwgggk.......',
+        '.......kggggggggggggggggk.......',
+        '........kkkBBBAkkBBBAkkk........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '..........kBBBAkkBBBAk..........',
+        '.........khHHhhkkhhHHhk.........',
+        '.........khhhhhkkhhhhhk.........',
+        '.........khhhhhkkhhhhhk.........',
+        '..........kkkkk..kkkkk..........',
+      ],
+    },
+  },
+  bombo: {
+    w: 48, h: 48,
+    frames: {
+      g0: [
+        '................................................',
+        '................................................',
+        '...................kkkkkkkkkk...................',
+        '.................kkuuuuuuuyyykk.................',
+        '...............kkuuukkkkkkkkyyykk...............',
+        '..............kuukkkuuuyYuu.kkkyyk..............',
+        '.............kuukuuu...yY..uuu.kyyk.............',
+        '............kukku......yY.....uukkyk............',
+        '...........kuku.....YYYyYYYYY....ukyk........kk.',
+        '..........kuuk..YYYYkk.yY....YYYY.kyyk......krRk',
+        '..........kuk.YY...kttkyY........YYkyk.....krrRk',
+        '.........kuk.Y....ktwttyY..........Ykyk.....kRRk',
+        '.........kukY.....ktttEyY...........kyk.....kiIk',
+        '........kuuk.......kEEkyY...........kyyk....kiIk',
+        '........kuk.........kk.yY............kYk....kiIk',
+        '....kkk.kuk..........uuyYu...........kYk.kkkkiIk',
+        '...kyykkkukuuuuuuuuuu..yY.uuuuuuuuuuukYkkyykkiIk',
+        '..kyuyYiikk............yY............kkiyuyYiik.',
+        '..kyyYYIIkk............yY.......kk...kkIyyYYIIk.',
+        '...kYYkkkukYYYYYYYYYYY.yY..YYYYYYYYYYkYkkYYkkk..',
+        '...kkkrkkyk...krrk....YyYYY...kowook.kYkkkkRk...',
+        '...kRRrkkyk..krwrrk..kpyYpk...koooNk.kYkkrRRk...',
+        '....kRRrkyyk.krrrRk..kpyYPk....kNNk.kYYkrRRk....',
+        '....kRRrkkyk..kRRkkk..kyYk..kk..kk.ukYkkrRRk....',
+        '....kRRrkkyku..kkkbbk..yY..kvvk...u.kYkkrRRk....',
+        '.....kRRrkkykuu.kbwbbk.yY.kvwvvkuu.kYkkrRRk.....',
+        '.....kRRrkkyyk.ukbbbBkkyYkkvvvVk..kYYkkrRRk.....',
+        '......kRRrkkykY..kBBkkeyYekkVVk..YkYkkrRRk......',
+        '......kRRrrkkykkYYkk.keyYEk.kk.YkkYkkrrRRk......',
+        '.......kRRrk.kyyk.YYY.kyYk..YYYkYYk.krRRk.......',
+        '........kRRrkkkyykkk.YYyYYYYkkkYYkkkrRRk........',
+        '........kRRRrrkkkyyykkkkkkkkYYYkkkrrRRRk........',
+        '.........kRRRrrkkkkyYYYYYYYYYkkkkrrRRRk.........',
+        '..........kkRRRrrkkkkkkkkkkkkkkrrRRRkk..........',
+        '............kRRRRrrrkkkkkkkkrrrRRRRk............',
+        '.............kkRRRRRrrrrrrrrRRRRRkk.............',
+        '...............kkRRRRRRRRRRRRRRkk...............',
+        '.................kkkrrRRRRRRkkk.................',
+        '...................krrRRRRRRk...................',
+        '...kkkkkkkkkkkkkkkkkrrRRRRRRkkkkkkkkkkkkkkkkk...',
+        '..krrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrk..',
+        '..krrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrk..',
+        '.kyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyk.',
+        '.kRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRk.',
+        '.kRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRk.',
+        '..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..',
+        '................................................',
+        '................................................',
+      ],
+      g1: [
+        '................................................',
+        '................................................',
+        '...................kkkkkkkkkk...................',
+        '.................kkuuuuuuuyyykk.................',
+        '...............kkuuukkkkkkkkyyykk...............',
+        '..............kuukkk...yY...kkkyyk..............',
+        '.............kuuk......yY......kyyk.............',
+        '............kukk.......yY.......kkyk............',
+        '...........kuk.........yY.........kyk...........',
+        '..........kuuk.........yY.........kyyk..........',
+        '..........kuk..........yY..........kyk..........',
+        '.........kuk...........yY...........kyk.........',
+        '.........kuk...uYYYYYYYyYYYYYYYYY...kyk.........',
+        '........kuukuYYY.....ktyY.......uYYYkyyk........',
+        '........kukYY.kk....ktwyYk.........uYkYk....kk..',
+        '....kkk.kuk..krrk...kttyYk...........kYk.kkkrRk.',
+        '...kyykkkuk.krwrrk...kEyY............kYkkyykrRk.',
+        '..kyuyYiikk.krrrRk....kyY............kkiyuyYRRk.',
+        '..kyyYYIIkk..kRRk......yY.kk.........kkIyyYYRRk.',
+        '...kYYkkkuk...kk.......yYkppk........kYkkYYkkk..',
+        '...kkkrkkyk............yYpwppk.......kYkkkkRk...',
+        '...kRRrkkykYY..........yYpppPk.kk..uYkYkkrRRk...',
+        '....kRRrkyykuYYY.kk....yYkPPk.kooYYYkYYkrRRk....',
+        '....kRRrkkyk...uYYYYYYYyYYYYYYYYYok.kYkkrRRk....',
+        '....kRRrkkyk...kbwbbk..yY..kkkoooNk.kYkkrRRk....',
+        '.....kRRrkkyk..kbbbBk.kyY.kvvkkNNk.kYkkrRRk.....',
+        '.....kRRrkkyyk..kBBk.keyYkvwvvkkk.kYYkkrRRk.....',
+        '......kRRrkkyk...kk.kewyYkvvvVk...kYkkrRRk......',
+        '......kRRrrkkykk....keeyYkkVVk..kkYkkrrRRk......',
+        '.......kRRrk.kyyk....kEyY..kk..kYYk.krRRk.......',
+        '........kRRrkkkyykkk..kyY...kkkYYkkkrRRk........',
+        '........kRRRrrkkkyyykkkkkkkkYYYkkkrrRRRk........',
+        '.........kRRRrrkkkkyYYYYYYYYYkkkkrrRRRk.........',
+        '..........kkRRRrrkkkkkkkkkkkkkkrrRRRkk..........',
+        '............kRRRRrrrkkkkkkkkrrrRRRRk............',
+        '.............kkRRRRRrrrrrrrrRRRRRkk.............',
+        '...............kkRRRRRRRRRRRRRRkk...............',
+        '.................kkkrrRRRRRRkkk.................',
+        '...................krrRRRRRRk...................',
+        '...kkkkkkkkkkkkkkkkkrrRRRRRRkkkkkkkkkkkkkkkkk...',
+        '..krrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrk..',
+        '..krrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrk..',
+        '.kyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyk.',
+        '.kRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRk.',
+        '.kRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRk.',
+        '..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..',
+        '................................................',
+        '................................................',
+      ],
+      g2: [
+        '................................................',
+        '................................................',
+        '...................kkkkkkkkkk...................',
+        '.................kkuuuuuuuyyykk.................',
+        '...............kkuuukkkkkkkkyyykk...............',
+        '..............kuukkk.YYyYYYYkkkyyk..............',
+        '.............kuuk.YYY..yY...YYYkyyk.............',
+        '............kukkYY.....yY......Ykkyk............',
+        '...........kukY....uuuuyYuuu.....Ykyk...........',
+        '..........kuuk.uuuu....yY...uuuu..kyyk..........',
+        '..........kukuu.kk.....yY.......uu.kyk..........',
+        '.........kuku..krrk....yY.........u.kyk.........',
+        '.........kuk..krwrrk...yY..........ukyk.........',
+        '........kuuk..krrrRk...yY...........kyyk........',
+        '........kuk....kRRk....yY............kYk........',
+        '....kkk.kuk.....kk....YyYYY..........kYk.kkk....',
+        '...kyykkkukYYYYYYYYYYY.yYtkYYYYYYYYYYkYkkyykkk..',
+        '..kyuyYiikk...........kyYttkppk......kkiyuyYiik.',
+        '..kyyYYIIkk...........kyYtEpwppk.....kkIyyYYIIk.',
+        '...kYYkkkukuuuuuuuuuu..yYEkpppPkuuuuukYkkYYkkiIk',
+        '...kkkrkkyk.....kk...uuyYk.kPPk......kYkkkkRkiIk',
+        '...kRRrkkyk....kbbk....yY...kk.......kYkkrRRkiIk',
+        '....kRRrkyyk..kbwbbk...yY.....kk....kYYkrRRkkiIk',
+        '....kRRrkkykY.kbbbBk...yY....kook...kYkkrRRkkiIk',
+        '....kRRrkkyk.Y.kBBk..kkyY.kkkowook.YkYkkrRRkrrRk',
+        '.....kRRrkkyk.YYkk..keeyYkvvkoooNYYkYkkrRRk.kRRk',
+        '.....kRRrkkyyk..YYYYeweyYvwvvYYYY.kYYkkrRRk..kk.',
+        '......kRRrkkyku....kYYYyYYYYYkkk.ukYkkrRRk......',
+        '......kRRrrkkykku...kEEyYkVVk.uukkYkkrrRRk......',
+        '.......kRRrk.kyykuuu.kkyY.kkuu.kYYk.krRRk.......',
+        '........kRRrkkkyykkkuuuyYuu.kkkYYkkkrRRk........',
+        '........kRRRrrkkkyyykkkkkkkkYYYkkkrrRRRk........',
+        '.........kRRRrrkkkkyYYYYYYYYYkkkkrrRRRk.........',
+        '..........kkRRRrrkkkkkkkkkkkkkkrrRRRkk..........',
+        '............kRRRRrrrkkkkkkkkrrrRRRRk............',
+        '.............kkRRRRRrrrrrrrrRRRRRkk.............',
+        '...............kkRRRRRRRRRRRRRRkk...............',
+        '.................kkkrrRRRRRRkkk.................',
+        '...................krrRRRRRRk...................',
+        '...kkkkkkkkkkkkkkkkkrrRRRRRRkkkkkkkkkkkkkkkkk...',
+        '..krrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrk..',
+        '..krrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrk..',
+        '.kyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyk.',
+        '.kRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRk.',
+        '.kRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRk.',
+        '..kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk..',
+        '................................................',
+        '................................................',
+      ],
+    },
+  },
+  medalla1: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 14, d: 10 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '..kkkk....kkkk..',
+        '.krrrRk..krRRRk.',
+        '.krrrRk..krRRRk.',
+        '..krrrRkkrRRRk..',
+        '..krrrRkkrRRRk..',
+        '...krrrRrRRRk...',
+        '...krkkkkkkRk...',
+        '...kkuuuuuykk...',
+        '..kuuYYYYYYyyk..',
+        '.kuwYyyyyyyyyyk.',
+        '.kwYyyyyyyyyyyk.',
+        'kuYyyyyyyyyyyuyk',
+        'kuYyyyyyyyyyyuYk',
+        'kuYyyyyyyyyyyuYk',
+        'kuYyyyyyyyyyyuYk',
+        'kuYyyyyyyyyyyuYk',
+        'kyYyyyyyyyyyyuYk',
+        '.kyyyyyyyyyyuYk.',
+        '.kyyyyyyyyyuuYk.',
+        '..kyyuuuuuuYYk..',
+        '...kkyYYYYYkk...',
+        '.....kkkkkk.....',
+      ],
+    },
+  },
+  medalla2: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 14, d: 10 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '..kkkk....kkkk..',
+        '.krrrRk..krRRRk.',
+        '.krrrRk..krRRRk.',
+        '..krrrRkkrRRRk..',
+        '..krrrRkkrRRRk..',
+        '...krrrRrRRRk...',
+        '...krkkkkkkRk...',
+        '...kkwwwwwikk...',
+        '..kwwIIIIIIiik..',
+        '.kwwIiiiiiiiiik.',
+        '.kwIiiiiiiiiiik.',
+        'kwIiiiiiiiiiiwik',
+        'kwIiiiiiiiiiiwIk',
+        'kwIiiiiiiiiiiwIk',
+        'kwIiiiiiiiiiiwIk',
+        'kwIiiiiiiiiiiwIk',
+        'kiIiiiiiiiiiiwIk',
+        '.kiiiiiiiiiiwIk.',
+        '.kiiiiiiiiiwwIk.',
+        '..kiiwwwwwwIIk..',
+        '...kkiIIIIIkk...',
+        '.....kkkkkk.....',
+      ],
+    },
+  },
+  medalla3: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 14, d: 10 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '..kkkk....kkkk..',
+        '.krrrRk..krRRRk.',
+        '.krrrRk..krRRRk.',
+        '..krrrRkkrRRRk..',
+        '..krrrRkkrRRRk..',
+        '...krrrRrRRRk...',
+        '...krkkkkkkRk...',
+        '...kkfffffnkk...',
+        '..kffNNNNNNnnk..',
+        '.kfwNnnnnnnnnnk.',
+        '.kwNnnnnnnnnnnk.',
+        'kfNnnnnnnnnnnfnk',
+        'kfNnnnnnnnnnnfNk',
+        'kfNnnnnnnnnnnfNk',
+        'kfNnnnnnnnnnnfNk',
+        'kfNnnnnnnnnnnfNk',
+        'knNnnnnnnnnnnfNk',
+        '.knnnnnnnnnnfNk.',
+        '.knnnnnnnnnffNk.',
+        '..knnffffffNNk..',
+        '...kknNNNNNkk...',
+        '.....kkkkkk.....',
+      ],
+    },
+  },
+  roseta4: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 8, d: 8 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '.......kk.......',
+        '....kkkbbkkk....',
+        '...kaaabbaaak...',
+        '..kkaaaBBaaakk..',
+        '.kbbaBBwwBBbbbk.',
+        '.kbbBwwwwwwBbbk.',
+        '.kbbBwwwwwwBBBk.',
+        'kaaBwwwwwwwwBbbk',
+        'kaaBwwwwwwwwBbbk',
+        '.kbbBwwwwwwBBBk.',
+        '.kbbBwwwwwwBBBk.',
+        '.kbbbBBwwBBbBBk.',
+        '..kkaabBBbbbkk..',
+        '...kaabBBbbbk...',
+        '...kkkkBBkkkk...',
+        '..kbbbBkkBBBbk..',
+        '..kbbbBkkBBBbk..',
+        '..kbbbBkkBBBbk..',
+        '.kbbbBk..kBBBbk.',
+        '.kbbbBk..kBBBbk.',
+        '.kbkkBk..kBkkbk.',
+        '..k..k....k..k..',
+      ],
+    },
+  },
+  roseta5: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 8, d: 8 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '.......kk.......',
+        '....kkkeekkk....',
+        '...kllleelllk...',
+        '..kklllEElllkk..',
+        '.keelEEwwEEeeek.',
+        '.keeEwwwwwwEeek.',
+        '.keeEwwwwwwEEEk.',
+        'kllEwwwwwwwwEeek',
+        'kllEwwwwwwwwEeek',
+        '.keeEwwwwwwEEEk.',
+        '.keeEwwwwwwEEEk.',
+        '.keeeEEwwEEeEEk.',
+        '..kklleEEeeekk..',
+        '...klleEEeeek...',
+        '...kkkkEEkkkk...',
+        '..keeeEkkEEEek..',
+        '..keeeEkkEEEek..',
+        '..keeeEkkEEEek..',
+        '.keeeEk..kEEEek.',
+        '.keeeEk..kEEEek.',
+        '.kekkEk..kEkkek.',
+        '..k..k....k..k..',
+      ],
+    },
+  },
+  roseta6: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 8, d: 8 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '.......kk.......',
+        '....kkkvvkkk....',
+        '...kqqqvvqqqk...',
+        '..kkqqqVVqqqkk..',
+        '.kvvqVVwwVVvvvk.',
+        '.kvvVwwwwwwVvvk.',
+        '.kvvVwwwwwwVVVk.',
+        'kqqVwwwwwwwwVvvk',
+        'kqqVwwwwwwwwVvvk',
+        '.kvvVwwwwwwVVVk.',
+        '.kvvVwwwwwwVVVk.',
+        '.kvvvVVwwVVvVVk.',
+        '..kkqqvVVvvvkk..',
+        '...kqqvVVvvvk...',
+        '...kkkkVVkkkk...',
+        '..kvvvVkkVVVvk..',
+        '..kvvvVkkVVVvk..',
+        '..kvvvVkkVVVvk..',
+        '.kvvvVk..kVVVvk.',
+        '.kvvvVk..kVVVvk.',
+        '.kvkkVk..kVkkvk.',
+        '..k..k....k..k..',
+      ],
+    },
+  },
+  roseta7: {
+    w: 16, h: 22,
+    centro: { x: 8, y: 8, d: 8 }, // centro liso para el número (px del lienzo)
+    frames: {
+      f: [
+        '.......kk.......',
+        '....kkkppkkk....',
+        '...kjjjppjjjk...',
+        '..kkjjjPPjjjkk..',
+        '.kppjPPwwPPpppk.',
+        '.kppPwwwwwwPppk.',
+        '.kppPwwwwwwPPPk.',
+        'kjjPwwwwwwwwPppk',
+        'kjjPwwwwwwwwPppk',
+        '.kppPwwwwwwPPPk.',
+        '.kppPwwwwwwPPPk.',
+        '.kpppPPwwPPpPPk.',
+        '..kkjjpPPpppkk..',
+        '...kjjpPPpppk...',
+        '...kkkkPPkkkk...',
+        '..kpppPkkPPPpk..',
+        '..kpppPkkPPPpk..',
+        '..kpppPkkPPPpk..',
+        '.kpppPk..kPPPpk.',
+        '.kpppPk..kPPPpk.',
+        '.kpkkPk..kPkkpk.',
+        '..k..k....k..k..',
+      ],
+    },
+  },
+  candado: {
+    w: 10, h: 12,
+    frames: {
+      f: [
+        '...kkkk...',
+        '..kwiiik..',
+        '.kikkkkIk.',
+        '.kik..kIk.',
+        '.kik..kIk.',
+        '.kkkkkkkk.',
+        'kuyyyyyyYk',
+        'kyyykkyyYk',
+        'kyyykkyyYk',
+        'kyyyYYyyYk',
+        'kYYYYYYYYk',
+        '.kkkkkkkk.',
+      ],
+    },
+  },
+  matraz: {
+    w: 16, h: 16,
+    frames: {
+      f0: [
+        '.........kk.....',
+        '......k.kw.k....',
+        '.....k.kk..k....',
+        '......k..kk.....',
+        '....kkkkkkkk....',
+        '....kwgggggk....',
+        '....kkaaaakk....',
+        '.....kwaaak.....',
+        '.....kwaaak.....',
+        '....kwaaaaak....',
+        '...kwaaaaaaak...',
+        '...kllllllllk...',
+        '..kweeeeeleeEk..',
+        '..keeeweeeeeEk..',
+        '.keeeeeeleeeEEk.',
+        '..kkkkkkkkkkkk..',
+      ],
+      f1: [
+        '......kk........',
+        '.....kw.k.k.....',
+        '.....k..kk.k....',
+        '......kk..k.....',
+        '....kkkkkkkk....',
+        '....kwgggggk....',
+        '....kkaaaakk....',
+        '.....kwaaak.....',
+        '.....kwaaak.....',
+        '....kwaaaaak....',
+        '...kwaaaaaaak...',
+        '...klllllwllk...',
+        '..kweeweeeeeEk..',
+        '..keeeeeeeleEk..',
+        '.keeeeeeeeeeEEk.',
+        '..kkkkkkkkkkkk..',
+      ],
+    },
+  },
+};
+
+// Ajusta el canvas al tamaño del sprite y lo pinta píxel a píxel (sin frame, el primero).
+function dibujarSprite(canvas, nombre, frame) {
+  const sp = SPRITES[nombre];
+  if (!sp) throw new Error('Sprite desconocido: ' + nombre);
+  const filas = sp.frames[frame === undefined ? Object.keys(sp.frames)[0] : frame];
+  if (!filas) throw new Error('Frame desconocido: ' + nombre + '.' + frame);
+  canvas.width = sp.w;
+  canvas.height = sp.h;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, sp.w, sp.h);
+  for (let y = 0; y < sp.h; y++) {
+    for (let x = 0; x < sp.w; x++) {
+      const c = filas[y][x];
+      if (c === '.') continue;
+      ctx.fillStyle = PALETA[c];
+      ctx.fillRect(x, y, 1, 1);
+    }
+  }
+}
+</script>
+<script>
+(() => {
+  'use strict';
+/*ELEMENTOS*/
+// Los 118 elementos: [número, símbolo, nombre en español, nombre en inglés, periodo, grupo, familia].
+// Lantánidos y actínidos llevan grupo null (van aparte, en las dos filas de abajo).
+// Familias: alc alcalino · alt alcalinotérreo · tra transición · lan lantánido · act actínido ·
+//           pos otros metales · met metaloide · nom no metal · hal halógeno · gas gas noble.
+const ELEMENTOS = [
+  [1, 'H', 'hidrógeno', 'hydrogen', 1, 1, 'nom'],
+  [2, 'He', 'helio', 'helium', 1, 18, 'gas'],
+  [3, 'Li', 'litio', 'lithium', 2, 1, 'alc'],
+  [4, 'Be', 'berilio', 'beryllium', 2, 2, 'alt'],
+  [5, 'B', 'boro', 'boron', 2, 13, 'met'],
+  [6, 'C', 'carbono', 'carbon', 2, 14, 'nom'],
+  [7, 'N', 'nitrógeno', 'nitrogen', 2, 15, 'nom'],
+  [8, 'O', 'oxígeno', 'oxygen', 2, 16, 'nom'],
+  [9, 'F', 'flúor', 'fluorine', 2, 17, 'hal'],
+  [10, 'Ne', 'neón', 'neon', 2, 18, 'gas'],
+  [11, 'Na', 'sodio', 'sodium', 3, 1, 'alc'],
+  [12, 'Mg', 'magnesio', 'magnesium', 3, 2, 'alt'],
+  [13, 'Al', 'aluminio', 'aluminium', 3, 13, 'pos'],
+  [14, 'Si', 'silicio', 'silicon', 3, 14, 'met'],
+  [15, 'P', 'fósforo', 'phosphorus', 3, 15, 'nom'],
+  [16, 'S', 'azufre', 'sulfur', 3, 16, 'nom'],
+  [17, 'Cl', 'cloro', 'chlorine', 3, 17, 'hal'],
+  [18, 'Ar', 'argón', 'argon', 3, 18, 'gas'],
+  [19, 'K', 'potasio', 'potassium', 4, 1, 'alc'],
+  [20, 'Ca', 'calcio', 'calcium', 4, 2, 'alt'],
+  [21, 'Sc', 'escandio', 'scandium', 4, 3, 'tra'],
+  [22, 'Ti', 'titanio', 'titanium', 4, 4, 'tra'],
+  [23, 'V', 'vanadio', 'vanadium', 4, 5, 'tra'],
+  [24, 'Cr', 'cromo', 'chromium', 4, 6, 'tra'],
+  [25, 'Mn', 'manganeso', 'manganese', 4, 7, 'tra'],
+  [26, 'Fe', 'hierro', 'iron', 4, 8, 'tra'],
+  [27, 'Co', 'cobalto', 'cobalt', 4, 9, 'tra'],
+  [28, 'Ni', 'níquel', 'nickel', 4, 10, 'tra'],
+  [29, 'Cu', 'cobre', 'copper', 4, 11, 'tra'],
+  [30, 'Zn', 'cinc', 'zinc', 4, 12, 'tra'],
+  [31, 'Ga', 'galio', 'gallium', 4, 13, 'pos'],
+  [32, 'Ge', 'germanio', 'germanium', 4, 14, 'met'],
+  [33, 'As', 'arsénico', 'arsenic', 4, 15, 'met'],
+  [34, 'Se', 'selenio', 'selenium', 4, 16, 'nom'],
+  [35, 'Br', 'bromo', 'bromine', 4, 17, 'hal'],
+  [36, 'Kr', 'kriptón', 'krypton', 4, 18, 'gas'],
+  [37, 'Rb', 'rubidio', 'rubidium', 5, 1, 'alc'],
+  [38, 'Sr', 'estroncio', 'strontium', 5, 2, 'alt'],
+  [39, 'Y', 'itrio', 'yttrium', 5, 3, 'tra'],
+  [40, 'Zr', 'circonio', 'zirconium', 5, 4, 'tra'],
+  [41, 'Nb', 'niobio', 'niobium', 5, 5, 'tra'],
+  [42, 'Mo', 'molibdeno', 'molybdenum', 5, 6, 'tra'],
+  [43, 'Tc', 'tecnecio', 'technetium', 5, 7, 'tra'],
+  [44, 'Ru', 'rutenio', 'ruthenium', 5, 8, 'tra'],
+  [45, 'Rh', 'rodio', 'rhodium', 5, 9, 'tra'],
+  [46, 'Pd', 'paladio', 'palladium', 5, 10, 'tra'],
+  [47, 'Ag', 'plata', 'silver', 5, 11, 'tra'],
+  [48, 'Cd', 'cadmio', 'cadmium', 5, 12, 'tra'],
+  [49, 'In', 'indio', 'indium', 5, 13, 'pos'],
+  [50, 'Sn', 'estaño', 'tin', 5, 14, 'pos'],
+  [51, 'Sb', 'antimonio', 'antimony', 5, 15, 'met'],
+  [52, 'Te', 'telurio', 'tellurium', 5, 16, 'met'],
+  [53, 'I', 'yodo', 'iodine', 5, 17, 'hal'],
+  [54, 'Xe', 'xenón', 'xenon', 5, 18, 'gas'],
+  [55, 'Cs', 'cesio', 'caesium', 6, 1, 'alc'],
+  [56, 'Ba', 'bario', 'barium', 6, 2, 'alt'],
+  [57, 'La', 'lantano', 'lanthanum', 6, null, 'lan'],
+  [58, 'Ce', 'cerio', 'cerium', 6, null, 'lan'],
+  [59, 'Pr', 'praseodimio', 'praseodymium', 6, null, 'lan'],
+  [60, 'Nd', 'neodimio', 'neodymium', 6, null, 'lan'],
+  [61, 'Pm', 'prometio', 'promethium', 6, null, 'lan'],
+  [62, 'Sm', 'samario', 'samarium', 6, null, 'lan'],
+  [63, 'Eu', 'europio', 'europium', 6, null, 'lan'],
+  [64, 'Gd', 'gadolinio', 'gadolinium', 6, null, 'lan'],
+  [65, 'Tb', 'terbio', 'terbium', 6, null, 'lan'],
+  [66, 'Dy', 'disprosio', 'dysprosium', 6, null, 'lan'],
+  [67, 'Ho', 'holmio', 'holmium', 6, null, 'lan'],
+  [68, 'Er', 'erbio', 'erbium', 6, null, 'lan'],
+  [69, 'Tm', 'tulio', 'thulium', 6, null, 'lan'],
+  [70, 'Yb', 'iterbio', 'ytterbium', 6, null, 'lan'],
+  [71, 'Lu', 'lutecio', 'lutetium', 6, null, 'lan'],
+  [72, 'Hf', 'hafnio', 'hafnium', 6, 4, 'tra'],
+  [73, 'Ta', 'tantalio', 'tantalum', 6, 5, 'tra'],
+  [74, 'W', 'wolframio', 'tungsten', 6, 6, 'tra'],
+  [75, 'Re', 'renio', 'rhenium', 6, 7, 'tra'],
+  [76, 'Os', 'osmio', 'osmium', 6, 8, 'tra'],
+  [77, 'Ir', 'iridio', 'iridium', 6, 9, 'tra'],
+  [78, 'Pt', 'platino', 'platinum', 6, 10, 'tra'],
+  [79, 'Au', 'oro', 'gold', 6, 11, 'tra'],
+  [80, 'Hg', 'mercurio', 'mercury', 6, 12, 'tra'],
+  [81, 'Tl', 'talio', 'thallium', 6, 13, 'pos'],
+  [82, 'Pb', 'plomo', 'lead', 6, 14, 'pos'],
+  [83, 'Bi', 'bismuto', 'bismuth', 6, 15, 'pos'],
+  [84, 'Po', 'polonio', 'polonium', 6, 16, 'pos'],
+  [85, 'At', 'astato', 'astatine', 6, 17, 'hal'],
+  [86, 'Rn', 'radón', 'radon', 6, 18, 'gas'],
+  [87, 'Fr', 'francio', 'francium', 7, 1, 'alc'],
+  [88, 'Ra', 'radio', 'radium', 7, 2, 'alt'],
+  [89, 'Ac', 'actinio', 'actinium', 7, null, 'act'],
+  [90, 'Th', 'torio', 'thorium', 7, null, 'act'],
+  [91, 'Pa', 'protactinio', 'protactinium', 7, null, 'act'],
+  [92, 'U', 'uranio', 'uranium', 7, null, 'act'],
+  [93, 'Np', 'neptunio', 'neptunium', 7, null, 'act'],
+  [94, 'Pu', 'plutonio', 'plutonium', 7, null, 'act'],
+  [95, 'Am', 'americio', 'americium', 7, null, 'act'],
+  [96, 'Cm', 'curio', 'curium', 7, null, 'act'],
+  [97, 'Bk', 'berkelio', 'berkelium', 7, null, 'act'],
+  [98, 'Cf', 'californio', 'californium', 7, null, 'act'],
+  [99, 'Es', 'einstenio', 'einsteinium', 7, null, 'act'],
+  [100, 'Fm', 'fermio', 'fermium', 7, null, 'act'],
+  [101, 'Md', 'mendelevio', 'mendelevium', 7, null, 'act'],
+  [102, 'No', 'nobelio', 'nobelium', 7, null, 'act'],
+  [103, 'Lr', 'lawrencio', 'lawrencium', 7, null, 'act'],
+  [104, 'Rf', 'rutherfordio', 'rutherfordium', 7, 4, 'tra'],
+  [105, 'Db', 'dubnio', 'dubnium', 7, 5, 'tra'],
+  [106, 'Sg', 'seaborgio', 'seaborgium', 7, 6, 'tra'],
+  [107, 'Bh', 'bohrio', 'bohrium', 7, 7, 'tra'],
+  [108, 'Hs', 'hasio', 'hassium', 7, 8, 'tra'],
+  [109, 'Mt', 'meitnerio', 'meitnerium', 7, 9, 'tra'],
+  [110, 'Ds', 'darmstadtio', 'darmstadtium', 7, 10, 'tra'],
+  [111, 'Rg', 'roentgenio', 'roentgenium', 7, 11, 'tra'],
+  [112, 'Cn', 'copernicio', 'copernicium', 7, 12, 'tra'],
+  [113, 'Nh', 'nihonio', 'nihonium', 7, 13, 'pos'],
+  [114, 'Fl', 'flerovio', 'flerovium', 7, 14, 'pos'],
+  [115, 'Mc', 'moscovio', 'moscovium', 7, 15, 'pos'],
+  [116, 'Lv', 'livermorio', 'livermorium', 7, 16, 'pos'],
+  [117, 'Ts', 'teneso', 'tennessine', 7, 17, 'hal'],
+  [118, 'Og', 'oganesón', 'oganesson', 7, 18, 'gas'],
+];
+/*FIN-ELEMENTOS*/
+
+  // ---------- reglas ----------
+  // lo que destripa el truco va cifrado, como en Crímenes de época: no se lee a simple vista en el código
+  function descifrar(b64) {
+    const clave = 'otros-siete-elementos', bin = atob(b64), bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i) ^ clave.charCodeAt(i % clave.length);
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+  const S = descifrar('FFYUBh9MUVNHLj1uMy4rIEdCVgAVBhcbDh8PSTJHLgsPSU49CEdCVixRQ1YkTV8PMUtJVisPSU4oCkczWE0VBhgTHFEXKEs0IyB/MTUwJCo+VkNRLic2KTRlOSIpt/QPSU4/NSY4NiE+TSleTQNEAB0EB0cXPk4qARMHEA5TAxVSHgbu3gQMFwQNFQMXTRAAVAIcAhEcGxwXUwgUAaaARQEEAwEPGk8fDgdSAxZZAQgWWkcBRyqmwA8PAApTChpSAxINAxsMGQBfBEwJCBEcFU8XChhSHLCAHgsKGAoNAQlFAQodVBsBCgdSHgZIUxAEVAZCCwMGCBZUVDdTChpSCh8NQUenzkVdEAkWGQpCVDlTChpSCh8NR0enzkVURSFFCAtOEQNTWFqw1V0PX0s9WEV7RRVFIEUeFR0WDBEcTx3uyQQABgpeRR4KAAQAGxxfTwQXHRwNHQZFAgRDRRwKH0UPHKzeQVQ+DgANBwAAGgBeRQ0JTQQCFw4dDBFSCxYNHwYWVAFIAQMWQ0dCVj8aChoBDlNIHUkmABdBTjZJTSYaBgNYN1hSLAdfH0ImVBwNJhgXAU44Wk1fTScbCAZIUwUEVANECQ1fTT+s1DexzzewzyXv0yun1CvvxSFJTQkPVAsWTxUQDhlCUw0AGEVZAA8JDAEBWk0uQ1YCHRZAGgZHTkdhBB9FBAsHFwYSAxEBTxdIUwUKB0VepsEIDwoCGxxTCxFSGwZeUw4EGgRJCh4AHkUdGwFTNVhSN18NMEVFIkkNJ0BFI0UXVCJJTxgTHFNeGgwREUVBABgXDBZOEApTAxVSUxETFQAJFUVJAEwEDwQEG08XChhSGxZOHwgBG1kCB1JJTQAAVAABCxEcQVEBURkXEQhECj8KARANHQAdTU5QKgBZEkkAB0VYCw1FCQBOGA4ATw88ElNBGhoRFRYNFBkATQAAFw4ZDhpITx9MAEkMGgxODA0JCBZOEApTAxsBTwDu3gQHGwlCFkwDAhcDFQFTNbbSN7GNMKvFIqeNJ67FI6fOOUNTAxVSUxETFQAJFUVJAEwEDwQEG08XChhSGxZOHwgBG1kCB1JLTxg=');
+  const FILA = S.fila;
+  const OFICIAL = S.oficial;
+  // tres datos fijos: el magnesio, último, lo añadió Fali (27-oct) para que no valga el alfabeto al revés (Y X W V U T S)
+  const INICIAL = [null, 'Xe', null, 'V', null, null, 'Mg'];
+  const FIJO = INICIAL.map(Boolean);
+  const LIBRES = [0, 2, 4, 5];
+  const N_TEXTO = S.pistas.length; // pistas que solo dicen algo; las demás colocan un ganador
+  const N_PISTAS = N_TEXTO + LIBRES.length;
+  const FAMILIAS = { alc: 'alcalinos', alt: 'alcalinotérreos', tra: 'metales de transición', pos: 'otros metales', met: 'metaloides', nom: 'no metales', hal: 'halógenos', gas: 'gases nobles', lan: 'lantánidos', act: 'actínidos' };
+  const TEXTOS_PISTA = S.pistas;
+  const MSG_INICIO = 'Toca un puesto libre del podio y luego un elemento de la tabla, o al revés.';
+  // frases del presentador (de Cowork): donde hay varias, una al azar
+  const FRASES = {
+    inicio: ['¡Bienvenidos al segundo gran sorteo de los elementos!', 'Ya conocemos a tres de los premiados. Los otros cuatro son cosa tuya.'],
+    poner: ['Anotado.', 'Interesante elección…', '¿Seguro? Aquí nada es casualidad.', 'Ese elemento se va a poner muy contento.'],
+    quitar: ['Fuera del podio. Sin rencores.'],
+    pista: ['Te doy una pista, pero que no se entere el notario.'],
+    solucion: ['Te lo enseño… pero la próxima vez aguanta un poco más.'],
+    ganar: ['¡Premio! Lo has visto.'],
+    espera: ['Tómate tu tiempo: el bombo no tiene prisa.'],
+  };
+  const frase = (k) => `<i>${FRASES[k][Math.floor(Math.random() * FRASES[k].length)]}</i>`;
+  const MSG_CASI = '¡Caliente, caliente! Pero aquí mandan los símbolos, no los nombres.';
+
+  const EL = new Map();
+  for (const [z, s, es, en, p, g, f] of ELEMENTOS) EL.set(s, { z, s, es, en, p, g, f });
+  const ord = (i) => (i + 1) + '.º';
+  const nombreDe = (e) => `${e.es === 'plata' ? 'la' : 'el'} ${e.es} (${e.s})`;
+  const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+  const encaja = (s, i) => !!s && s[0] === FILA[i];
+  // «casi»: la casilla vale por el nombre (en español o en inglés) pero no por el símbolo: el cinc o el circonio en la C
+  const porNombre = (s, i) => { const e = EL.get(s); return !!e && (e.es[0].toUpperCase() === FILA[i] || e.en[0].toUpperCase() === FILA[i]); };
+  const casi = (lista) => !valida(lista) && lista.every((s, i) => s && (encaja(s, i) || porNombre(s, i))) && new Set(lista).size === 7;
+  // listas que solo están ordenadas (de mayor a menor número atómico, o símbolos o nombres al revés del alfabeto)
+  const bajan = (xs, cmp) => xs.every((x, i) => i === 0 || cmp(xs[i - 1], x) > 0);
+  const alfa = (a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' });
+  const ordenada = (lista) => bajan(lista.map((s) => EL.get(s).z), (a, b) => a - b) || bajan(lista, alfa) || bajan(lista.map((s) => EL.get(s).es), alfa);
+  // dominó de números atómicos (Cowork): cada número empieza por la última cifra del anterior, o al revés
+  const encadena = (lista, f) => lista.map((s) => String(EL.get(s).z)).every((z, i, zs) => i === 0 || f(zs[i - 1], z));
+  const domino = (lista) => encadena(lista, (a, b) => b[0] === a[a.length - 1]) || encadena(lista, (a, b) => b[b.length - 1] === a[0]);
+  // qué contesta el juego a una lista completa
+  function veredicto(lista) {
+    if (valida(lista)) return 'vale';
+    if (casi(lista)) return 'casi';
+    if (ordenada(lista)) return 'orden';
+    if (domino(lista)) return 'domino';
+    return 'no';
+  }
+  function valida(lista) {
+    return Array.isArray(lista) && lista.length === 7 && lista.every((s) => EL.has(s)) &&
+      new Set(lista).size === 7 && lista.every((s, i) => encaja(s, i) && (!FIJO[i] || s === INICIAL[i]));
+  }
+  const CANDIDATOS = [...FILA].map((L, i) => (FIJO[i] ? [INICIAL[i]] : ELEMENTOS.filter((e) => e[1][0] === L).map((e) => e[1])));
+  // cuántas listas valen: se enumeran una a una
+  const TOTAL = (() => {
+    let n = 0;
+    const usados = new Set();
+    (function rec(i) {
+      if (i === 7) { n++; return; }
+      for (const s of CANDIDATOS[i]) if (!usados.has(s)) { usados.add(s); rec(i + 1); usados.delete(s); }
+    })(0);
+    return n;
+  })();
+  // con la última pista de texto se iluminan los candidatos de los puestos libres
+  const LETRAS_LIBRES = LIBRES.map((i) => FILA[i]).join('');
+  const N_BRILLAN = LIBRES.reduce((a, i) => a + CANDIDATOS[i].length, 0);
+
+  // casilla de cada elemento en la tabla: fila 1-7 los periodos, 8 hueco, 9 lantánidos, 10 actínidos
+  function sitio(e) {
+    if (e.g !== null) return [e.p, e.g];
+    return [e.p === 6 ? 9 : 10, e.z - (e.p === 6 ? 57 : 89) + 3];
+  }
+  const POS = new Map(), EN = new Map();
+  for (const e of EL.values()) { const [f, c] = sitio(e); POS.set(e.s, [f, c]); EN.set(f + ',' + c, e.s); }
+  function vecino(s, df, dc) {
+    let [f, c] = POS.get(s);
+    for (let k = 0; k < 20; k++) {
+      f += df; c += dc;
+      if (f < 1 || f > 10 || c < 1 || c > 18) return null;
+      const t = EN.get(f + ',' + c);
+      if (t) return t;
+    }
+    return null;
+  }
+
+  // ---------- estado y guardado ----------
+  const CLAVE = 'otros-siete-elementos-v1';
+  const opciones = { sonido: true };
+  const nuevo = () => ({ podio: INICIAL.slice(), pistas: 0, fallos: 0, resaltar: false, ganado: false, conSolucion: false, ultimaMala: null });
+  function podioBueno(p) {
+    if (!Array.isArray(p) || p.length !== 7) return false;
+    if (!p.every((s, i) => (FIJO[i] ? s === INICIAL[i] : s === null || EL.has(s)))) return false;
+    const puestos = p.filter(Boolean);
+    return new Set(puestos).size === puestos.length;
+  }
+  let est = nuevo();
+  try {
+    const d = JSON.parse(localStorage.getItem(CLAVE) || 'null');
+    if (d && d.opciones && typeof d.opciones.sonido === 'boolean') opciones.sonido = d.opciones.sonido;
+    if (d && d.est && podioBueno(d.est.podio)) {
+      const g = d.est;
+      est = Object.assign(nuevo(), {
+        podio: g.podio.slice(),
+        pistas: Math.max(0, Math.min(N_PISTAS, g.pistas | 0)),
+        fallos: Math.max(0, g.fallos | 0),
+        resaltar: !!g.resaltar, ganado: !!g.ganado && valida(g.podio), conSolucion: !!g.conSolucion,
+        ultimaMala: typeof g.ultimaMala === 'string' ? g.ultimaMala : null,
+      });
+    }
+  } catch (e) { /* sin almacenamiento */ }
+  function guardar() { try { localStorage.setItem(CLAVE, JSON.stringify({ v: 1, est, opciones })); } catch (e) { /* sin almacenamiento */ } }
+
+  let hist = [], selPuesto = null, selElem = null, ocupado = false, tok = 0, directo = false;
+  const reducido = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (id) => document.getElementById(id);
+  const espera = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // ---------- arte ----------
+  function sprite(canvas, nombre, frame) {
+    try {
+      if (typeof dibujarSprite === 'function' && typeof SPRITES !== 'undefined' && SPRITES[nombre]) { dibujarSprite(canvas, nombre, frame); return true; }
+    } catch (e) { /* sin arte */ }
+    return false;
+  }
+  const cvPresentador = $('cvPresentador'), cvBombo = $('cvBombo');
+  if (!sprite(cvPresentador, 'presentador', 'quieto')) cvPresentador.hidden = true;
+  if (!sprite(cvBombo, 'bombo', 'g0')) cvBombo.hidden = true;
+  let hablaT = null, bomboT = null;
+  function presentador(frame) { clearInterval(hablaT); sprite(cvPresentador, 'presentador', frame); }
+  function hablar() {
+    if (est.ganado || reducido) return;
+    let n = 0;
+    clearInterval(hablaT);
+    hablaT = setInterval(() => {
+      sprite(cvPresentador, 'presentador', n % 2 ? 'quieto' : 'habla');
+      if (++n > 6) { clearInterval(hablaT); sprite(cvPresentador, 'presentador', 'quieto'); }
+    }, 170);
+  }
+  function girarBombo() {
+    if (reducido) return;
+    let n = 0;
+    clearInterval(bomboT);
+    bomboT = setInterval(() => {
+      sprite(cvBombo, 'bombo', 'g' + (++n % 3));
+      if (n >= 9) clearInterval(bomboT);
+    }, 110);
+  }
+
+  // ---------- título en colores ----------
+  {
+    const h1 = $('titulo'), cols = Object.keys(FAMILIAS);
+    let k = 0;
+    h1.innerHTML = [...h1.textContent].map((ch) => (ch === ' ' ? ' ' : `<span style="color:var(--${cols[k++ % cols.length]})">${ch}</span>`)).join('');
+  }
+
+  // ---------- montar podio, tabla, leyenda y el panel del premio ----------
+  const podioEl = $('podio'), tabla = $('tabla'), ficha = $('ficha'), msg = $('msg'), pistaCaja = $('pistaCaja');
+  const ESCALON = [54, 46, 40, 34, 28, 23, 18];
+  const COLOR_ESCALON = ['#ffd43b', '#ced4da', '#e8a067', '#74c0fc', '#8ce99a', '#b197fc', '#f783ac'];
+  podioEl.innerHTML = INICIAL.map((_, i) =>
+    `<button class="puesto" data-i="${i}" style="--h:${ESCALON[i]}px;--e:${COLOR_ESCALON[i]}">` +
+    `<canvas class="medalla px" width="16" height="22" aria-hidden="true"></canvas>` +
+    `<span class="losa"><span class="n"></span><span class="s"></span>${FIJO[i] ? '<canvas class="candado px" width="10" height="12" aria-hidden="true"></canvas>' : ''}</span>` +
+    `<span class="nombre"></span><span class="escalon">${ord(i)}</span></button>`).join('');
+  podioEl.querySelectorAll('.medalla').forEach((c, i) => { if (!sprite(c, i < 3 ? 'medalla' + (i + 1) : 'roseta' + (i + 1), 'f')) c.style.visibility = 'hidden'; });
+  podioEl.querySelectorAll('.candado').forEach((c) => { if (!sprite(c, 'candado', 'f')) c.hidden = true; });
+  const PUESTOS = [...podioEl.children];
+
+  const CELDA = new Map();
+  tabla.innerHTML = [...EL.values()].map((e) => {
+    const [f, c] = sitio(e);
+    return `<button class="el" data-s="${e.s}" style="grid-row:${f};grid-column:${c};--c:var(--${e.f})" aria-label="${e.z}, ${e.s}, ${e.es}" title="${e.es} (${e.z})">` +
+      `<span class="n">${e.z}</span><span class="s">${e.s}</span><span class="nm${e.es.length > 10 ? ' largo' : ''}">${e.es}</span></button>`;
+  }).join('') +
+    '<div class="hueco" style="grid-row:6;grid-column:3;--c:var(--lan)" aria-hidden="true"><span>57‑71</span></div>' +
+    '<div class="hueco" style="grid-row:7;grid-column:3;--c:var(--act)" aria-hidden="true"><span>89‑103</span></div>';
+  tabla.querySelectorAll('.el').forEach((b) => CELDA.set(b.dataset.s, b));
+  $('leyenda').innerHTML = Object.entries(FAMILIAS).map(([k, n]) => `<span><i style="--c:var(--${k})"></i>${n}</span>`).join('');
+  const panel = $('panel');
+  panel.innerHTML = S.filas.map((f) => `<div class="panel-fila">${[...f].map((L) => `<span class="pieza" data-l="${L}">${L}<small></small></span>`).join('')}</div>`).join('');
+
+  function medir() {
+    const cw = (tabla.clientWidth - 17 * 2) / 18;
+    tabla.style.setProperty('--cw', cw.toFixed(1) + 'px');
+    tabla.classList.toggle('mini', cw < 30);
+    tabla.classList.toggle('media', cw >= 30 && cw < 50);
+    tabla.classList.toggle('grande', cw >= 50);
+    const antes = directo;
+    directo = cw >= 34;
+    if (antes !== directo && !selElem) pintarFicha();
+  }
+  if (window.ResizeObserver) new ResizeObserver(medir).observe(tabla); else addEventListener('resize', medir);
+  medir();
+
+  // ---------- pintar ----------
+  function pintarPodio() {
+    PUESTOS.forEach((b, i) => {
+      const s = est.podio[i], e = s && EL.get(s);
+      b.querySelector('.losa .s').textContent = e ? e.s : '?';
+      b.querySelector('.losa .n').textContent = e ? e.z : '';
+      b.querySelector('.nombre').textContent = e ? e.es : '';
+      b.style.setProperty('--c', e ? `var(--${e.f})` : 'var(--papel2)');
+      b.classList.toggle('vacio', !e);
+      b.classList.toggle('sel', selPuesto === i);
+      b.setAttribute('aria-pressed', selPuesto === i ? 'true' : 'false');
+      b.setAttribute('aria-label', `${ord(i)} puesto: ${e ? e.es : 'vacío'}${FIJO[i] ? ', fijo' : ''}`);
+    });
+  }
+  function pintarTabla() {
+    const usados = new Set(est.podio.filter(Boolean));
+    for (const [s, b] of CELDA) {
+      b.classList.toggle('usado', usados.has(s));
+      b.classList.toggle('elegido', selElem === s);
+      b.classList.toggle('brilla', est.resaltar && LETRAS_LIBRES.includes(s[0]));
+      b.setAttribute('aria-pressed', selElem === s ? 'true' : 'false');
+    }
+  }
+  function pintarFicha() {
+    const e = selElem && EL.get(selElem);
+    if (!e) {
+      ficha.innerHTML = `<p class="ficha-vacia">${est.ganado ? 'Toca un elemento para verlo de cerca.' : directo
+        ? 'Toca un puesto libre y luego un elemento, o al revés. También puedes arrastrar los elementos al podio.'
+        : 'Toca un elemento de la tabla para verlo de cerca y ponerlo en el podio.'}</p>`;
+      return;
+    }
+    const donde = est.podio.indexOf(e.s);
+    let nota = '', poner = '';
+    if (donde >= 0 && FIJO[donde]) nota = `<p class="nota">Es el ${ord(donde)} ganador: lo dice el enunciado.</p>`;
+    else if (donde >= 0) nota = `<p class="nota">Está en el ${ord(donde)} puesto.${est.ganado || ocupado ? '' : ` <button class="enlace" data-quitar="${donde}">Quitarlo</button>`}</p>`;
+    if (!est.ganado && !ocupado && !(donde >= 0 && FIJO[donde])) {
+      poner = `<div class="poner"><span>${donde >= 0 ? 'Moverlo al:' : 'Ponerlo en el:'}</span>` + LIBRES.map((i) => {
+        const otro = est.podio[i];
+        return `<button class="mini-boton${selPuesto === i ? ' principal' : ''}" data-poner="${i}"${otro === e.s ? ' disabled' : ''}>${ord(i)}${otro && otro !== e.s ? ` <small>(${otro})</small>` : ''}</button>`;
+      }).join('') + '</div>';
+    }
+    const fl = [['-1,0', '▲', 'Arriba'], ['0,-1', '◀', 'Izquierda'], ['0,1', '▶', 'Derecha'], ['1,0', '▼', 'Abajo']].map(([d, t, a]) => {
+      const [df, dc] = d.split(',').map(Number);
+      return `<button data-mover="${d}" aria-label="${a}"${vecino(e.s, df, dc) ? '' : ' disabled'}>${t}</button>`;
+    }).join('');
+    ficha.innerHTML = `<div class="ficha-el" style="--c:var(--${e.f})"><span class="n">${e.z}</span><span class="s">${e.s}</span></div>` +
+      `<div><div class="ficha-nombre">${e.es}</div><div class="ficha-fam">${FAMILIAS[e.f]}<span class="pg"> · periodo ${e.p}${e.g ? ' · grupo ' + e.g : ''}</span></div>${nota}</div>` +
+      `<div class="flechas" role="group" aria-label="Moverse por la tabla">${fl}</div>${poner}`;
+  }
+  const bPista = $('bPista'), bComprobar = $('bComprobar'), bSolucion = $('bSolucion'), bDeshacer = $('bDeshacer'), bReiniciar = $('bReiniciar'), bSonido = $('bSonido');
+  function pintarBotones() {
+    bPista.disabled = ocupado || est.ganado;
+    bComprobar.disabled = ocupado;
+    bSolucion.disabled = ocupado;
+    bDeshacer.disabled = ocupado || !hist.length;
+    bSonido.innerHTML = opciones.sonido ? '<span class="ico">🔊</span>Sonido' : '<span class="ico">🔇</span>Sin sonido';
+    bSonido.setAttribute('aria-pressed', opciones.sonido ? 'true' : 'false');
+    bSonido.title = (opciones.sonido ? 'Quitar el sonido' : 'Poner el sonido') + ' (tecla M)';
+  }
+  function pintar() { pintarPodio(); pintarTabla(); pintarFicha(); pintarBotones(); }
+  function cambiado() { guardar(); pintar(); }
+  function decir(html) { msg.innerHTML = html; hablar(); esperar(); }
+  // si pasan dos minutos sin hacer nada, el presentador dice algo (una vez por rato)
+  let esperaT = null;
+  function esperar() {
+    clearTimeout(esperaT);
+    esperaT = setTimeout(() => { if (!est.ganado && !ocupado && document.visibilityState === 'visible') { msg.innerHTML = frase('espera'); hablar(); } }, 120000);
+  }
+  const toast = $('toast');
+  let toastT = null;
+  function aviso(t, ms) { toast.textContent = t; toast.classList.add('ver'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('ver'), ms || 3400); }
+  function latido(b) { b.classList.remove('latido'); void b.offsetWidth; b.classList.add('latido'); }
+  const MSG_RESUELTO = '🎉 ¡Resuelto! Pulsa ⟲ Reiniciar para jugar otra vez. <button class="enlace" data-a="premio">Ver el premio</button>';
+
+  // ---------- sonido (sintetizado, como en Crímenes de época) ----------
+  let actx = null;
+  function audio() { if (!actx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; actx = new AC(); } if (actx.state === 'suspended') actx.resume(); return actx; }
+  function tono(f, t0, dur, tipo, vol) {
+    const a = audio(); if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + t0;
+    o.type = tipo; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + 0.03);
+  }
+  function ruido(t0, dur, fc, vol) {
+    const a = audio(); if (!a) return;
+    const n = Math.floor(a.sampleRate * dur), b = a.createBuffer(1, n, a.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+    const s = a.createBufferSource(), fi = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime + t0;
+    s.buffer = b; fi.type = 'bandpass'; fi.frequency.value = fc; fi.Q.value = 1.2; g.gain.value = vol;
+    s.connect(fi); fi.connect(g); g.connect(a.destination); s.start(t);
+  }
+  // trombón con sordina: el «wah-wah» de cuando la lista completa no vale
+  function trombon(f, t0, dur, vol, vibrato) {
+    const a = audio(); if (!a) return;
+    const o = a.createOscillator(), fi = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime + t0;
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(f, t);
+    if (vibrato) {
+      const l = a.createOscillator(), lg = a.createGain();
+      l.frequency.value = 5.5; lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(f * 0.03, t + dur * 0.4);
+      l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + dur + 0.05);
+      o.frequency.setTargetAtTime(f * 0.94, t + dur * 0.5, dur * 0.25);
+    }
+    fi.type = 'lowpass'; fi.Q.value = 5;
+    fi.frequency.setValueAtTime(f * 1.2, t); fi.frequency.linearRampToValueAtTime(f * 6, t + 0.1); fi.frequency.linearRampToValueAtTime(f * 2, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.03); g.gain.setValueAtTime(vol, t + dur * 0.75); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(fi); fi.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  const NOTAS = [523, 587, 659, 698, 784, 880, 988];
+  const SONIDOS = {
+    clic: () => tono(880, 0, 0.05, 'square', 0.03),
+    poner: () => { tono(262, 0, 0.16, 'triangle', 0.22); ruido(0, 0.05, 1400, 0.5); },
+    quitar: () => { tono(392, 0, 0.09, 'triangle', 0.12); },
+    no: () => { tono(196, 0, 0.16, 'triangle', 0.18); tono(147, 0.11, 0.22, 'triangle', 0.18); },
+    pista: () => { tono(784, 0, 0.16, 'sine', 0.12); tono(1047, 0.1, 0.22, 'sine', 0.1); },
+    fanfarria: () => [[392, 0, 0.16], [392, 0.17, 0.08], [523, 0.27, 0.2], [659, 0.5, 0.2], [784, 0.74, 0.5], [659, 1.28, 0.14], [784, 1.44, 0.8]].forEach(([f, t, d]) => { tono(f, t, d, 'square', 0.05); tono(f / 2, t, d, 'triangle', 0.08); }),
+    wahwah: () => [[294, 0, 0.42], [277, 0.45, 0.42], [262, 0.9, 0.42], [247, 1.35, 1.1]].forEach(([f, t, d], n) => trombon(f, t, d, 0.07, n === 3)),
+  };
+  for (let i = 0; i < 7; i++) SONIDOS['nota' + i] = () => { tono(NOTAS[i], 0, 0.24, 'square', 0.05); tono(NOTAS[i] / 2, 0, 0.24, 'triangle', 0.08); };
+  const sonados = [];
+  function sonar(n) { sonados.push(n); if (!opciones.sonido) return; try { SONIDOS[n](); } catch (e) { /* sin audio */ } }
+  function alternarSonido() { opciones.sonido = !opciones.sonido; guardar(); pintarBotones(); if (opciones.sonido) sonar('clic'); }
+
+  // ---------- jugar ----------
+  function apuntar() { hist.push(est.podio.slice()); if (hist.length > 300) hist.shift(); }
+  function colocar(s, i) {
+    if (ocupado || est.ganado || !EL.has(s)) return false;
+    if (FIJO[i]) { aviso(`El ${ord(i)} puesto es del ${EL.get(INICIAL[i]).es}: lo dice el enunciado.`); return false; }
+    const ya = est.podio.indexOf(s);
+    if (ya >= 0 && FIJO[ya]) { aviso(`${cap(nombreDe(EL.get(s)))} es el ${ord(ya)} ganador: no se mueve.`); return false; }
+    if (ya === i) return false;
+    apuntar();
+    if (ya >= 0) est.podio[ya] = null;
+    est.podio[i] = s;
+    selPuesto = null; selElem = null;
+    decir(`${frase('poner')} ${ord(i)} puesto: ${nombreDe(EL.get(s))}.`);
+    girarBombo();
+    cambiado();
+    if (!revisarFinal()) sonar('poner');
+    return true;
+  }
+  function quitar(i) {
+    if (ocupado || est.ganado) return;
+    if (FIJO[i]) { aviso(`El ${ord(i)} puesto es del ${EL.get(INICIAL[i]).es}: lo dice el enunciado.`); return; }
+    const s = est.podio[i];
+    if (!s) return;
+    apuntar();
+    est.podio[i] = null; selElem = null;
+    decir(`${frase('quitar')} Has quitado ${nombreDe(EL.get(s))} del ${ord(i)} puesto.`);
+    sonar('quitar');
+    cambiado();
+  }
+  // al llenar el podio se mira solo si la lista vale (como al colocar al último sospechoso en Crímenes)
+  function revisarFinal() {
+    if (est.podio.some((s) => !s)) return false;
+    juzgar('wahwah');
+    return true;
+  }
+  // lista completa: premio, «casi» (no cuenta como fallo) o fallo; el sonido del fallo depende de quién pregunta
+  function juzgar(sonidoFallo) {
+    const v = veredicto(est.podio);
+    if (v === 'vale') { victoria(false); return; }
+    if (v === 'casi') { sonar('no'); decir(MSG_CASI); return; }
+    contarFallo();
+    sonar(sonidoFallo);
+    // a las listas que solo están ordenadas se les dice que ordenar no es la lógica (el aviso anterior hacía creer que el orden era el bueno)
+    const motivo = {
+      orden: 'No cuadra. Ordenarlos por el abecedario o por el número atómico no es la lógica del sorteo.',
+      domino: 'No cuadra. Encadenar las cifras de los números atómicos no es la lógica del sorteo.',
+    };
+    decir((motivo[v] || 'No cuadra. Los premios no cayeron al azar.') +
+      (est.fallos >= 3 ? ' ¿Te echo una mano? Pulsa 💡 Pista.' : ''));
+    if (est.fallos >= 3) latido(bPista);
+  }
+  function contarFallo() {
+    const k = est.podio.join(',');
+    if (k !== est.ultimaMala) { est.ultimaMala = k; est.fallos++; guardar(); }
+  }
+  function tocarPuesto(i) {
+    if (ocupado) return;
+    if (est.ganado) { aviso('Ya está resuelto. Pulsa ⟲ Reiniciar para jugar otra vez.'); return; }
+    if (FIJO[i]) { aviso(`El ${ord(i)} puesto es del ${EL.get(INICIAL[i]).es}: lo dice el enunciado.`); return; }
+    if (selElem && est.podio[i] !== selElem) { colocar(selElem, i); return; }
+    if (est.podio[i]) { quitar(i); return; }
+    selPuesto = selPuesto === i ? null : i;
+    decir(selPuesto === null ? MSG_INICIO : `Ahora elige en la tabla al ${ord(i)} ganador.`);
+    sonar('clic');
+    pintar();
+  }
+  function tocarElemento(s) {
+    if (ocupado) return;
+    if (selPuesto !== null && directo && !est.ganado && colocar(s, selPuesto)) return;
+    selElem = selElem === s ? null : s;
+    sonar('clic');
+    pintar();
+  }
+  function mover(df, dc) {
+    if (!selElem) return;
+    const t = vecino(selElem, df, dc);
+    if (!t) return;
+    selElem = t;
+    pintar();
+  }
+  function deshacer() {
+    if (ocupado) return;
+    if (!hist.length) { aviso('No hay nada que deshacer.'); return; }
+    est.podio = hist.pop();
+    est.ganado = false; est.conSolucion = false;
+    selPuesto = null; selElem = null;
+    presentador('quieto');
+    decir('Deshecho.');
+    sonar('quitar');
+    cambiado();
+  }
+  function reiniciar() {
+    tok++; ocupado = false;
+    cerrarPremio(); cerrarModal(); pararConfeti(); $('vuelos').innerHTML = '';
+    est = nuevo(); hist = []; selPuesto = null; selElem = null;
+    ocultarPista();
+    presentador('quieto');
+    guardar();
+    decir(`${frase('inicio')} ${MSG_INICIO}`);
+    pintar();
+  }
+  function comprobar() {
+    if (ocupado) return;
+    if (est.ganado) { aviso('Ya está resuelto. Pulsa ⟲ Reiniciar para jugar otra vez.'); return; }
+    const faltan = est.podio.filter((s) => !s).length;
+    if (faltan) { sonar('no'); decir(`Faltan premiados: el podio tiene siete puestos y ${faltan === 1 ? 'queda 1 libre' : `quedan ${faltan} libres`}.`); return; }
+    juzgar('no');
+  }
+
+  // ---------- pistas ----------
+  function ocultarPista() { pistaCaja.hidden = true; pistaCaja.innerHTML = ''; }
+  function mostrarPista(n, html) {
+    pistaCaja.hidden = false;
+    pistaCaja.innerHTML = `<div class="cab"><b><canvas class="matraz px" width="16" height="16" aria-hidden="true"></canvas>PISTA ${n} DE ${N_PISTAS}</b><button class="cerrar" data-a="cerrar" aria-label="Cerrar la pista">✕</button></div><p>${html}</p>`;
+    const m = pistaCaja.querySelector('.matraz');
+    if (sprite(m, 'matraz', 'f0') && !reducido) { let k = 0; const t = setInterval(() => { if (!m.isConnected) { clearInterval(t); return; } sprite(m, 'matraz', 'f' + (++k % 2)); }, 400); } else if (!m.width) m.hidden = true;
+    pistaCaja.scrollIntoView({ block: 'nearest', behavior: reducido ? 'auto' : 'smooth' });
+  }
+  function pedirPista() {
+    if (ocupado) return;
+    if (est.ganado) { aviso('Ya está resuelto.'); return; }
+    if (est.pistas < N_TEXTO) {
+      est.pistas++;
+      if (est.pistas === N_TEXTO) est.resaltar = true; // con la última pista de texto se iluminan los candidatos
+      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1] + (est.pistas === N_TEXTO ? ` <span class="nota">Te he iluminado en la tabla los ${N_BRILLAN} elementos que pueden servir.</span>` : ''));
+      decir(frase('pista'));
+      sonar('pista');
+      cambiado();
+      return;
+    }
+    // antes de colocar, señala los puestos que no encajan
+    const mal = LIBRES.filter((i) => est.podio[i] && !encaja(est.podio[i], i));
+    if (mal.length) {
+      const lista = mal.map((i) => `<li>El ${ord(i)}, ${nombreDe(EL.get(est.podio[i]))}: el símbolo tiene que empezar por ${FILA[i]}.</li>`).join('');
+      abrirModal(`<h2>ANTES DE LA PISTA</h2><p>${mal.length === 1 ? 'Hay un ganador que no encaja:' : `Hay ${mal.length} ganadores que no encajan:`}</p><ul style="text-align:left;margin:6px auto;max-width:460px;padding-left:22px">${lista}</ul>` +
+        `<div class="pie"><button class="boton b-pista" data-a="quitar">Quitar${mal.length === 1 ? 'lo' : 'los'} y ver la pista</button><button class="boton" data-a="no">Ahora no</button></div>`, (c) => {
+        c.querySelector('[data-a="quitar"]').onclick = () => { apuntar(); for (const i of mal) est.podio[i] = null; cerrarModal(); sonar('quitar'); cambiado(); pedirPista(); };
+        c.querySelector('[data-a="no"]').onclick = cerrarModal;
+      });
+      return;
+    }
+    const i = LIBRES.find((j) => !est.podio[j]);
+    if (i === undefined) { revisarFinal(); return; }
+    apuntar();
+    est.podio[i] = OFICIAL[i];
+    est.pistas++;
+    selPuesto = null; selElem = null;
+    mostrarPista(est.pistas, `Te coloco un ganador: el ${ord(i)} puesto es para ${nombreDe(EL.get(OFICIAL[i]))}.`);
+    decir(`${ord(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
+    girarBombo();
+    cambiado();
+    if (!revisarFinal()) sonar('pista');
+  }
+
+  // ---------- solución y premio ----------
+  async function solucion() {
+    if (ocupado) return;
+    const t = ++tok;
+    ocupado = true;
+    ocultarPista(); cerrarModal();
+    selPuesto = null; selElem = null; hist = [];
+    est.podio = INICIAL.slice(); est.ganado = false; est.conSolucion = false;
+    presentador('quieto');
+    cambiado();
+    decir('🔑 ' + frase('solucion'));
+    await espera(800); if (t !== tok) return;
+    for (const i of LIBRES) {
+      est.podio[i] = OFICIAL[i];
+      guardar(); pintar(); sonar('poner'); girarBombo();
+      decir(`🔑 ${ord(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
+      await espera(900); if (t !== tok) return;
+    }
+    victoria(true, t);
+  }
+  const premio = $('premio'), premioTxt = $('premioTxt'), premioPie = $('premioPie'), vuelos = $('vuelos');
+  function abrirPremio() {
+    panel.querySelectorAll('.pieza').forEach((k) => { k.classList.remove('on'); k.style.removeProperty('--c'); k.querySelector('small').textContent = ''; });
+    premioTxt.innerHTML = ''; premioPie.hidden = true; premio.hidden = false;
+  }
+  function cerrarPremio() { premio.hidden = true; }
+  function encender(i) {
+    const s = est.podio[i], e = EL.get(s), k = panel.querySelector(`[data-l="${FILA[i]}"]`);
+    k.classList.add('on'); k.style.setProperty('--c', `var(--${e.f})`); k.querySelector('small').textContent = s;
+  }
+  function volar(i, t) {
+    return new Promise((res) => {
+      const fin = () => { if (t === tok) { encender(i); sonar('nota' + i); } res(); };
+      const desde = PUESTOS[i].querySelector('.losa').getBoundingClientRect();
+      const hasta = panel.querySelector(`[data-l="${FILA[i]}"]`).getBoundingClientRect();
+      if (reducido || !desde.width || !hasta.width) { setTimeout(fin, 280); return; }
+      const e = EL.get(est.podio[i]), v = document.createElement('div');
+      v.className = 'vuelo'; v.textContent = e.s;
+      v.style.setProperty('--c', `var(--${e.f})`);
+      v.style.width = desde.width + 'px'; v.style.height = desde.height + 'px';
+      v.style.fontSize = Math.round(desde.height * 0.36) + 'px';
+      v.style.transform = `translate(${desde.left}px,${desde.top}px)`;
+      vuelos.appendChild(v);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        v.style.transform = `translate(${hasta.left}px,${hasta.top}px) scale(${hasta.width / desde.width})`;
+      }));
+      setTimeout(() => { v.remove(); fin(); }, 500);
+    });
+  }
+  // textos de Cowork (§6); los que dicen el truco vienen cifrados en S
+  function textoPremio() {
+    if (est.conSolucion) return `<p>${S.premioSolucion.replace('{N}', `<b>${TOTAL}</b>`)}</p><p>Pulsa ⟲ Reiniciar y busca la tuya.</p>`;
+    const oficial = est.podio.every((s, i) => s === OFICIAL[i]);
+    return `<p>${S.premio}</p><p>Hay <b>${TOTAL}</b> listas que encajan, y la tuya es una de ellas.${oficial ? ' Además, es la lista oficial.' : ''}</p>` +
+      `<p><b>${est.pistas === 0 ? 'Sin pistas. ¡Enhorabuena!' : est.pistas === 1 ? 'Con 1 pista.' : `Con ${est.pistas} pistas.`}</b></p>`;
+  }
+  async function victoria(conSol, t0) {
+    const t = t0 || ++tok;
+    ocupado = true;
+    est.ganado = true; est.conSolucion = !!conSol;
+    selPuesto = null; selElem = null;
+    ocultarPista();
+    guardar(); pintar();
+    presentador('celebra');
+    decir(conSol ? '🔑 ¡Y aquí está el premio!' : '🎉 ' + frase('ganar'));
+    PUESTOS[0].scrollIntoView({ block: 'nearest', behavior: reducido ? 'auto' : 'smooth' });
+    await espera(reducido ? 50 : 450); if (t !== tok) return;
+    abrirPremio();
+    await espera(350); if (t !== tok) return;
+    for (let i = 0; i < 7; i++) { await volar(i, t); if (t !== tok) return; }
+    await espera(250); if (t !== tok) return;
+    terminarPremio();
+  }
+  function terminarPremio() {
+    sonar('fanfarria');
+    confeti();
+    premioTxt.innerHTML = textoPremio();
+    premioPie.hidden = false;
+    ocupado = false;
+    pintar();
+    msg.innerHTML = MSG_RESUELTO;
+    $('bCerrarPremio').focus();
+  }
+  // Escape o un toque fuera del recuadro, a media animación: se salta hasta el final
+  function saltarPremio() {
+    if (premio.hidden || !ocupado || !est.ganado) return;
+    tok++;
+    vuelos.innerHTML = '';
+    for (let i = 0; i < 7; i++) encender(i);
+    terminarPremio();
+  }
+  function verPremio() {
+    if (!est.ganado || ocupado) return;
+    abrirPremio();
+    for (let i = 0; i < 7; i++) encender(i);
+    premioTxt.innerHTML = textoPremio();
+    premioPie.hidden = false;
+  }
+
+  // ---------- confeti de píxeles ----------
+  const fx = $('fx');
+  let confetiVivo = 0;
+  function confeti() {
+    if (reducido) return;
+    const x = fx.getContext('2d'), W = (fx.width = innerWidth), H = (fx.height = innerHeight);
+    const cols = Object.keys(FAMILIAS).map((k) => getComputedStyle(document.documentElement).getPropertyValue('--' + k).trim());
+    const ps = Array.from({ length: 150 }, () => ({ x: Math.random() * W, y: -Math.random() * H * 0.7, vx: (Math.random() - 0.5) * 2.2, vy: 1.6 + Math.random() * 3.4, s: [4, 6, 8][(Math.random() * 3) | 0], c: cols[(Math.random() * cols.length) | 0] }));
+    const yo = ++confetiVivo;
+    let f = 0;
+    (function paso() {
+      if (yo !== confetiVivo) { x.clearRect(0, 0, W, H); return; }
+      x.clearRect(0, 0, W, H);
+      for (const p of ps) {
+        p.x += p.vx; p.y += p.vy;
+        const px = Math.round(p.x / 2) * 2, py = Math.round(p.y / 2) * 2;
+        x.fillStyle = '#2c2531'; x.fillRect(px - 1, py - 1, p.s + 2, p.s + 2);
+        x.fillStyle = p.c; x.fillRect(px, py, p.s, p.s);
+      }
+      if (++f < 260) requestAnimationFrame(paso); else x.clearRect(0, 0, W, H);
+    })();
+  }
+  function pararConfeti() { confetiVivo++; }
+
+  // ---------- avisos con botones ----------
+  const modal = $('modal'), modalCaja = $('modalCaja');
+  function abrirModal(html, montar) { modalCaja.innerHTML = html; modal.hidden = false; if (montar) montar(modalCaja); const b = modalCaja.querySelector('button'); if (b) b.focus(); }
+  function cerrarModal() { modal.hidden = true; modalCaja.innerHTML = ''; }
+
+  // ---------- arrastrar con el ratón ----------
+  let arrastre = null, ignorarClic = false;
+  tabla.addEventListener('pointerdown', (ev) => {
+    if (ev.pointerType !== 'mouse' || ev.button !== 0 || ocupado || est.ganado) return;
+    const b = ev.target.closest('.el');
+    if (b) arrastre = { s: b.dataset.s, x: ev.clientX, y: ev.clientY, fantasma: null };
+  });
+  addEventListener('pointermove', (ev) => {
+    if (!arrastre) return;
+    if (!arrastre.fantasma) {
+      if (Math.hypot(ev.clientX - arrastre.x, ev.clientY - arrastre.y) < 6) return;
+      const e = EL.get(arrastre.s), f = document.createElement('div');
+      f.className = 'fantasma'; f.textContent = e.s; f.style.setProperty('--c', `var(--${e.f})`);
+      document.body.appendChild(f); document.body.classList.add('arrastrando');
+      arrastre.fantasma = f;
+    }
+    arrastre.fantasma.style.transform = `translate(${ev.clientX - 23}px,${ev.clientY - 23}px)`;
+    const p = document.elementFromPoint(ev.clientX, ev.clientY), puesto = p && p.closest('.puesto');
+    PUESTOS.forEach((x, i) => x.classList.toggle('destino', x === puesto && !FIJO[i]));
+  });
+  addEventListener('pointerup', (ev) => {
+    if (!arrastre) return;
+    const a = arrastre;
+    arrastre = null;
+    if (!a.fantasma) return; // fue un clic: lo atiende el evento click
+    a.fantasma.remove(); document.body.classList.remove('arrastrando');
+    PUESTOS.forEach((x) => x.classList.remove('destino'));
+    ignorarClic = true; setTimeout(() => { ignorarClic = false; }, 0);
+    const p = document.elementFromPoint(ev.clientX, ev.clientY), puesto = p && p.closest('.puesto');
+    if (puesto) colocar(a.s, +puesto.dataset.i);
+  });
+
+  // ---------- eventos ----------
+  tabla.addEventListener('click', (ev) => { if (ignorarClic) return; const b = ev.target.closest('.el'); if (b) tocarElemento(b.dataset.s); });
+  podioEl.addEventListener('click', (ev) => { const b = ev.target.closest('.puesto'); if (b) tocarPuesto(+b.dataset.i); });
+  ficha.addEventListener('click', (ev) => {
+    const b = ev.target.closest('button');
+    if (!b || ocupado) return;
+    if (b.dataset.poner) colocar(selElem, +b.dataset.poner);
+    else if (b.dataset.quitar) quitar(+b.dataset.quitar);
+    else if (b.dataset.mover) { const [df, dc] = b.dataset.mover.split(',').map(Number); mover(df, dc); }
+  });
+  pistaCaja.addEventListener('click', (ev) => { if (ev.target.closest('[data-a="cerrar"]')) ocultarPista(); });
+  msg.addEventListener('click', (ev) => { if (ev.target.closest('[data-a="premio"]')) verPremio(); });
+  bPista.addEventListener('click', pedirPista);
+  bComprobar.addEventListener('click', comprobar);
+  bSolucion.addEventListener('click', solucion);
+  bDeshacer.addEventListener('click', deshacer);
+  bReiniciar.addEventListener('click', reiniciar);
+  bSonido.addEventListener('click', alternarSonido);
+  $('bCerrarPremio').addEventListener('click', cerrarPremio);
+  $('bOtraVez').addEventListener('click', reiniciar);
+  premio.addEventListener('click', (ev) => { if (ev.target === premio) { if (ocupado) saltarPremio(); else cerrarPremio(); } });
+  modal.addEventListener('click', (ev) => { if (ev.target === modal) cerrarModal(); });
+  document.addEventListener('keydown', (ev) => {
+    if ((ev.ctrlKey || ev.metaKey) && !ev.altKey && ev.key.toLowerCase() === 'z') { ev.preventDefault(); deshacer(); return; }
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    if (ev.key === 'Escape') {
+      if (!modal.hidden) cerrarModal();
+      else if (!premio.hidden) { if (ocupado) saltarPremio(); else cerrarPremio(); }
+      else { selPuesto = null; selElem = null; pintar(); }
+      return;
+    }
+    if (ev.key === 'm' || ev.key === 'M') { alternarSonido(); return; }
+    const flechas = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] };
+    if (flechas[ev.key] && selElem && !ocupado && premio.hidden && modal.hidden) {
+      ev.preventDefault(); mover(...flechas[ev.key]);
+      const b = CELDA.get(selElem); if (b && document.activeElement && document.activeElement.classList.contains('el')) b.focus();
+    }
+  });
+
+  // ---------- arranque ----------
+  if (est.ganado) { presentador('celebra'); msg.innerHTML = MSG_RESUELTO; }
+  else { msg.innerHTML = `${frase('inicio')} ${MSG_INICIO}`; esperar(); }
+  pintar();
+
+  // para el robot de pruebas
+  window.OSE = {
+    ELEMENTOS, FILA, OFICIAL, N_PISTAS, total: TOTAL, nBrillan: N_BRILLAN, candidatos: CANDIDATOS, valida, veredicto, sonados,
+    estado: () => JSON.parse(JSON.stringify({ est, selPuesto, selElem, ocupado, hist: hist.length, directo })),
+  };
+})();
+</script>
+</body>
+</html>
