@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Otros siete elementos</title>
-<meta name="description" content="Un acertijo de pensamiento lateral: los elementos químicos vuelven a un sorteo con siete premios. Solo se sabe quién quedó 2.º, 4.º y último. ¿Puedes proponer una lista de ganadores que tenga sentido?">
+<meta name="description" content="Un acertijo de pensamiento lateral: los elementos químicos vuelven a un sorteo con siete premios. Uno ya está en el podio, y del resto solo se sabe que el estaño y el cobre, por ese orden, estuvieron entre los cuatro últimos. ¿Quiénes fueron los siete, y en qué orden?">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,700;1,400&family=Alegreya+SC:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
@@ -139,12 +139,13 @@ canvas.px{image-rendering:pixelated;image-rendering:crisp-edges}
 .pie{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .premio-tit{font-family:var(--pixel);font-size:clamp(20px,6vw,32px);margin:8px 0 14px;color:var(--oro);
   text-shadow:2px 0 0 var(--tinta),-2px 0 0 var(--tinta),0 2px 0 var(--tinta),0 -2px 0 var(--tinta),2px 2px 0 var(--tinta),-2px -2px 0 var(--tinta),2px -2px 0 var(--tinta),-2px 2px 0 var(--tinta)}
-.panel{--tk:clamp(21px,6.9vw,44px);display:inline-block;background:#e9dfc4;padding:8px 10px 10px;box-shadow:var(--borde);margin:4px 3px 12px;max-width:100%;text-align:left}
-.panel-fila{display:flex;gap:3px;margin:3px 0}
-.panel-fila:nth-child(2){margin-left:calc(var(--tk) * .3)}
-.panel-fila:nth-child(3){margin-left:calc(var(--tk) * .8)}
-.pieza{position:relative;width:var(--tk);height:var(--tk);background:#fffdf6;box-shadow:inset 0 0 0 2px var(--tinta),inset 0 -4px 0 0 #d8ccad;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--tk) * .08);font-family:var(--pixel);font-size:calc(var(--tk) * .3);line-height:1;padding-bottom:3px}
-.pieza small{font-size:calc(var(--tk) * .19);line-height:1}
+/* el panel del premio: siete casillas, una por ganador, que se van encendiendo */
+.panel{--tk:clamp(38px,11.5vw,70px);display:flex;gap:4px;justify-content:center;background:#e9dfc4;padding:10px 8px 12px;box-shadow:var(--borde);margin:4px 3px 12px;max-width:100%}
+.pieza{position:relative;width:var(--tk);height:calc(var(--tk) * 1.55);background:#fffdf6;box-shadow:inset 0 0 0 2px var(--tinta),inset 0 -4px 0 0 #d8ccad;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--tk) * .07);line-height:1;padding-bottom:4px}
+.pieza b{font-family:var(--pixel);font-weight:400;font-size:calc(var(--tk) * .32)}
+/* el nombre bajo la letra tiene que caber entero también en el móvil (el más largo, en 41 px): letra pequeña y sin espaciado */
+.pieza em{font-family:'Alegreya SC',var(--texto);font-style:normal;font-weight:700;font-size:clamp(6.5px,calc(var(--tk) * .185),14px);color:var(--tinta2);letter-spacing:0;max-width:100%;white-space:nowrap;padding:0 1px}
+.pieza small{font-family:var(--pixel);font-size:calc(var(--tk) * .19);line-height:1}
 .pieza small:empty{display:none}
 .pieza.on{background:var(--c);animation:pulsa .3s steps(2)}
 @keyframes pulsa{50%{transform:translateY(-4px)}}
@@ -164,7 +165,7 @@ body.arrastrando,body.arrastrando *{cursor:grabbing!important}
 <header class="cabecera">
   <h1 id="titulo" aria-label="Otros siete elementos">Otros siete elementos</h1>
   <p class="continuacion">La continuación de <a href="https://juniopuzzles.wordpress.com/2026/10/25/siete-elementos/">«Siete elementos»</a>, de Junio Puzzles</p>
-  <p class="lema">Un acertijo de pensamiento lateral. Siete premios, tres datos y una lógica escondida.</p>
+  <p class="lema">Un acertijo de pensamiento lateral. Siete premios, dos datos y una lógica escondida.</p>
 </header>
 <div class="arriba">
   <section class="caja cartel" aria-label="El sorteo">
@@ -172,8 +173,8 @@ body.arrastrando,body.arrastrando *{cursor:grabbing!important}
     <div class="bocadillo">
       <p class="rotulo">Gran sorteo de los elementos</p>
       <p>Los elementos químicos volvieron a participar en un sorteo, y otra vez hubo siete ganadores.</p>
-      <p>Lo único que se sabe es que el <b>xenón</b> fue el segundo premiado; el <b>vanadio</b>, el cuarto, y el <b>magnesio</b>, el último.</p>
-      <p class="pregunta">¿Podrías proponer una lista de ganadores, en orden, que tenga sentido?</p>
+      <p>Uno de ellos ya está en el podio. Del resto solo se sabe que el <b>estaño</b> y el <b>cobre</b>, por ese orden, estuvieron entre los cuatro últimos.</p>
+      <p class="pregunta">¿Podrías proponer la lista de los siete ganadores, en orden?</p>
     </div>
   </section>
   <section class="caja" aria-label="El podio">
@@ -198,10 +199,10 @@ body.arrastrando,body.arrastrando *{cursor:grabbing!important}
 <section class="caja como">
   <details open><summary>Cómo se juega</summary>
     <p>• Toca un puesto libre del podio y después un elemento de la tabla periódica, o al revés. En el ordenador también puedes arrastrar. Toca un puesto ocupado para vaciarlo.</p>
-    <p>• El xenón (2.º), el vanadio (4.º) y el magnesio (7.º) ya están en su sitio. Un elemento no puede ganar dos veces.</p>
+    <p>• Uno de los premiados ya está en su sitio, con candado. Un elemento no puede ganar dos veces.</p>
     <p>• Al completar el podio, o al pulsar <b>✔ Comprobar</b>, sabrás si la lista vale, pero no qué casilla falla.</p>
-    <p>• <b>💡 Pista</b> te ayuda un poco más cada vez que la pulsas. <b>🔑 Solución</b> enseña una lista que vale.</p>
-    <p>• Hay muchas listas posibles: basta con que la tuya siga la lógica del sorteo.</p>
+    <p>• <b>💡 Pista</b> te ayuda un poco más cada vez que la pulsas. <b>🔑 Solución</b> enseña la lista.</p>
+    <p>• Hay una sola lista que encaja: la que sigue la lógica del sorteo.</p>
   </details>
 </section>
 </div>
@@ -1025,13 +1026,13 @@ const ELEMENTOS = [
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i) ^ clave.charCodeAt(i % clave.length);
     return JSON.parse(new TextDecoder().decode(bytes));
   }
-  const S = descifrar('FFYUBh9MUVNHLj1uMy4rIEdCVgAVBhcbDh8PSTJHLgsPSU49CEdCVixRQ1YkTV8PMUtJVisPSU4oCkczWE0VBhgTHFEXKEs0IyB/MTUwJCo+VkNRLic2KTRlOSIpt/QPSU4/NSY4NiE+TSleTQNEAB0EB0cXPk4qARMHEA5TAxVSHgbu3gQMFwQNFQMXTRAAVAIcAhEcGxwXUwgUAaaARQEEAwEPGk8fDgdSAxZZAQgWWkcBRyqmwA8PAApTChpSAxINAxsMGQBfBEwJCBEcFU8XChhSHLCAHgsKGAoNAQlFAQodVBsBCgdSHgZIUxAEVAZCCwMGCBZUVDdTChpSCh8NQUenzkVdEAkWGQpCVDlTChpSCh8NR0enzkVURSFFCAtOEQNTWFqw1V0PX0s9WEV7RRVFIEUeFR0WDBEcTx3uyQQABgpeRR4KAAQAGxxfTwQXHRwNHQZFAgRDRRwKH0UPHKzeQVQ+DgANBwAAGgBeRQ0JTQQCFw4dDBFSCxYNHwYWVAFIAQMWQ0dCVj8aChoBDlNIHUkmABdBTjZJTSYaBgNYN1hSLAdfH0ImVBwNJhgXAU44Wk1fTScbCAZIUwUEVANECQ1fTT+s1DexzzewzyXv0yun1CvvxSFJTQkPVAsWTxUQDhlCUw0AGEVZAA8JDAEBWk0uQ1YCHRZAGgZHTkdhBB9FBAsHFwYSAxEBTxdIUwUKB0VepsEIDwoCGxxTCxFSGwZeUw4EGgRJCh4AHkUdGwFTNVhSN18NMEVFIkkNJ0BFI0UXVCJJTxgTHFNeGgwREUVBABgXDBZOEApTAxVSUxETFQAJFUVJAEwEDwQEG08XChhSGxZOHwgBG1kCB1JJTQAAVAABCxEcQVEBURkXEQhECj8KARANHQAdTU5QKgBZEkkAB0VYCw1FCQBOGA4ATw88ElNBGhoRFRYNFBkATQAAFw4ZDhpITx9MAEkMGgxODA0JCBZOEApTAxsBTwDu3gQHGwlCFkwDAhcDFQFTNbbSN7GNMKvFIqeNJ67FI6fOOUNTAxVSUxETFQAJFUVJAEwEDwQEG08XChhSGxZOHwgBG1kCB1JLTxg=');
-  const FILA = S.fila;
+  const S = descifrar('FFYdCRpOGggJVl92Ry0CT0lMMgpRQ1Y6CFEBUToLVkkPJhlHQUc+Fk1fTTUHTS4BUQoEBwxBCQ0WT181D00QTU5QI1EBUR1HTkdBEAIAHkdCVgpRVVY+Gh1MURRJD0dOR1ZHIEdCVhtRVVYfDgFZFhpHWEdIR1ZHIAQcAApRElgJTRAPSUs9VkkPEU5fTwgHt8YBDBseCgAPX0sAVl8PKAkXDhAcHQBRElgJTRAPSUsvVkkPEU5fTw8bERkWHFZeTRYPSUsvt99dDBgAH0cTWBRRDFZITSUPX0sRVl8PEwUAHwsLB01fTRFQVVF7FgcQB0dQSRdHDkdUVjxRQ1YGTUkPAKrEFgRJCk5JTwBMTk0gDgAHHR1CURRJD0dOR1ZHKUdCVhtRVVYWAB5EHQ4KVkkPAE5fTzYBGE0OMlhQHxpeBwgWVl92Ry0UGKbDVAEcTxkTARdMUwUEVBRYpsEIBAYPWk82A1QaBhZfAQZJVABBRQkWGQStxQBTFlQXA1NOHAsXEUVUBEwWCEUaBg4RDh4TDRJDUwwLVAlMRS0LGQwJt9MWCxUWjfOLUxBFGgoNAB4EA0UCGxxTrM4cBhBCAEdHWEd+DAkRCEUeBgoeBhsBQVPvzDgQt8wNEwUAAwBOEApTHB0XGxYNFgdFBwxIEQlaT0lMOQoBDAEABhzP889FGQzuzB4GAgkLB0FTrcsxDgBYEgUMEARJWk5JTyYPEA5TC7ffDlNJFkkJFUVeAAEEAwROERwHDhYTTxdIFwAGFQFCRQ1FGAtOFRwHHRtSRxZBUxqm1QdMAQNJTQROJw4HGgYcAEgNFgVFEApADAICAklOFQNTPBseRl8NCkkGFQFMRQ0WGRcBVBsWAbffDlNeBkkIERFMCUwBCBYKEU8fAAdSDh9cBgAIHRZZBB9fTSgPBhsWQ1QXA1NFGgwXBgoWRSam1xUHAAoBQ1QXA1NIAB0Et9RCS05JTykPVCMGARVeTx9MUxkJFRFMXkwzCAsbB0NTChhSDBxPAQxeVDZMERkXAwpCVAofTwQeAB5CSEkAGEV+CgBJTQACVAABAFpQMl8PEAYLHhBDEQNHV0es1TwcAVQeAAANAAAAAAAMRTwAHwpOGgBTChpSCgBIUwYXEABDS05JTxUcEQIaAFZITT9CAEkWHQBZAEwICBEPGAoATxAXTx9MUygLAAxKptAACQQKWE8QDhATTwZDHEkGGwsNFhlFDBYaBgBfTw1SAxxeUwgWABdCFkwAA0ULGE8cHRAXAVNJFkkJGxYNWQ5bCabDFRxTCxFSAxINAAwIFQtMWUMHU19OGBodCgdSRz9YHQhMWEVdCQ0RDF5OGQ4BGxEBT1tgEhsREUwBRQQMCBccG1RTAh2xxgFOHAUAB0UFKAkXDhAcHQBaQ1QfCgFOBhsMG14NDxkAGwAdVEc5rM4CBgdIAUBJVABeEQ2m3ApVVBkaCgYcCgANWz8AGhBeTEBFDgoMBgpITwexzhFMFwZFXDZMERkXAwpHWE8DAxsfAEgNFwYIHQtKCkxNPgoCXUNTAAYdQVMRABkEGkVOCQ0WHlgyVgEcGxUuTU0FNgVFB6aMBw0BAkUXVAofTxAdAhpDFAZFBABfAQUAHwoAVAodTxEBHxLuwgYJVABBRQIKAAccEU8XClQBGlNMAB0XG0kNFQkXAkULGk8aARMerNpeUwUKVAZCCx8AHxMPGlVTUx1MPBJZBhsBFRwRSgVbQUVSHVEgGhoWDgoRXABbWkwRSh8VDAtQVhI=');
   const OFICIAL = S.oficial;
-  // tres datos fijos: el magnesio, último, lo añadió Fali (27-oct) para que no valga el alfabeto al revés (Y X W V U T S)
-  const INICIAL = [null, 'Xe', null, 'V', null, null, 'Mg'];
+  // el podio arranca con un solo premiado, fijo en el 2.º, que el texto no nombra; el enunciado habla solo del estaño y
+  // del cobre (Fali, 27-oct: con el 6.º fijo cabía otra lectura)
+  const INICIAL = OFICIAL.map((s, i) => (i === 1 ? s : null));
   const FIJO = INICIAL.map(Boolean);
-  const LIBRES = [0, 2, 4, 5];
+  const LIBRES = [0, 2, 3, 4, 5, 6];
   const N_TEXTO = S.pistas.length; // pistas que solo dicen algo; las demás colocan un ganador
   const N_PISTAS = N_TEXTO + LIBRES.length;
   const FAMILIAS = { alc: 'alcalinos', alt: 'alcalinotérreos', tra: 'metales de transición', pos: 'otros metales', met: 'metaloides', nom: 'no metales', hal: 'halógenos', gas: 'gases nobles', lan: 'lantánidos', act: 'actínidos' };
@@ -1039,7 +1040,7 @@ const ELEMENTOS = [
   const MSG_INICIO = 'Toca un puesto libre del podio y luego un elemento de la tabla, o al revés.';
   // frases del presentador (de Cowork): donde hay varias, una al azar
   const FRASES = {
-    inicio: ['¡Bienvenidos al segundo gran sorteo de los elementos!', 'Ya conocemos a tres de los premiados. Los otros cuatro son cosa tuya.'],
+    inicio: ['¡Bienvenidos al segundo gran sorteo de los elementos!', 'Ya conocemos a uno de los premiados. Del estaño y del cobre sabemos algo; lo demás es cosa tuya.'],
     poner: ['Anotado.', 'Interesante elección…', '¿Seguro? Aquí nada es casualidad.', 'Ese elemento se va a poner muy contento.'],
     quitar: ['Fuera del podio. Sin rencores.'],
     pista: ['Te doy una pista, pero que no se entere el notario.'],
@@ -1048,50 +1049,35 @@ const ELEMENTOS = [
     espera: ['Tómate tu tiempo: el bombo no tiene prisa.'],
   };
   const frase = (k) => `<i>${FRASES[k][Math.floor(Math.random() * FRASES[k].length)]}</i>`;
-  const MSG_CASI = '¡Caliente, caliente! Pero aquí mandan los símbolos, no los nombres.';
 
   const EL = new Map();
   for (const [z, s, es, en, p, g, f] of ELEMENTOS) EL.set(s, { z, s, es, en, p, g, f });
   const ord = (i) => (i + 1) + '.º';
+  // delante de «puesto» o «ganador» van primer y tercer: 1.er y 3.er (RAE; Cowork)
+  const ordM = (i) => (i === 0 ? '1.er' : i === 2 ? '3.er' : ord(i));
+  const delNombre = (e) => (e.es === 'plata' ? 'de la ' : 'del ') + e.es;
+  const avisoFijo = (i) => aviso(`El ${ordM(i)} puesto es ${delNombre(EL.get(INICIAL[i]))}: ese premio ya se sabía.`);
   const nombreDe = (e) => `${e.es === 'plata' ? 'la' : 'el'} ${e.es} (${e.s})`;
   const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
-  const encaja = (s, i) => !!s && s[0] === FILA[i];
-  // «casi»: la casilla vale por el nombre (en español o en inglés) pero no por el símbolo: el cinc o el circonio en la C
-  const porNombre = (s, i) => { const e = EL.get(s); return !!e && (e.es[0].toUpperCase() === FILA[i] || e.en[0].toUpperCase() === FILA[i]); };
-  const casi = (lista) => !valida(lista) && lista.every((s, i) => s && (encaja(s, i) || porNombre(s, i))) && new Set(lista).size === 7;
-  // listas que solo están ordenadas (de mayor a menor número atómico, o símbolos o nombres al revés del alfabeto)
-  const bajan = (xs, cmp) => xs.every((x, i) => i === 0 || cmp(xs[i - 1], x) > 0);
-  const alfa = (a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' });
-  const ordenada = (lista) => bajan(lista.map((s) => EL.get(s).z), (a, b) => a - b) || bajan(lista, alfa) || bajan(lista.map((s) => EL.get(s).es), alfa);
-  // dominó de números atómicos (Cowork): cada número empieza por la última cifra del anterior, o al revés
-  const encadena = (lista, f) => lista.map((s) => String(EL.get(s).z)).every((z, i, zs) => i === 0 || f(zs[i - 1], z));
-  const domino = (lista) => encadena(lista, (a, b) => b[0] === a[a.length - 1]) || encadena(lista, (a, b) => b[b.length - 1] === a[0]);
-  // qué contesta el juego a una lista completa
+  // la lista es única: vale solo la oficial
+  const valida = (lista) => Array.isArray(lista) && lista.length === 7 && lista.every((s, i) => s === OFICIAL[i]);
+  const DE_LA_LISTA = new Set(OFICIAL);
+  // los siete ganadores, en el orden que sea
+  const losSiete = (lista) => lista.every((s) => DE_LA_LISTA.has(s)) && new Set(lista).size === 7;
+  // el dato del enunciado: el estaño y el cobre, por ese orden, entre los cuatro últimos (del 4.º al 7.º)
+  const cumple = (lista) => { const a = lista.indexOf('Sn'), b = lista.indexOf('Cu'); return a >= 3 && b >= 3 && a < b; };
+  // qué contesta el juego a una lista completa (Cowork): vale > no cumple el enunciado > los siete en otro orden > no cuadra.
+  // Ya no hace falta el mensaje de las listas ordenadas: con el estaño antes que el cobre, ninguna lista que cumpla el
+  // enunciado va por el abecedario ni por el número atómico creciente
   function veredicto(lista) {
     if (valida(lista)) return 'vale';
-    if (casi(lista)) return 'casi';
-    if (ordenada(lista)) return 'orden';
-    if (domino(lista)) return 'domino';
+    if (!cumple(lista)) return 'enunciado';
+    if (losSiete(lista)) return 'conjunto';
     return 'no';
   }
-  function valida(lista) {
-    return Array.isArray(lista) && lista.length === 7 && lista.every((s) => EL.has(s)) &&
-      new Set(lista).size === 7 && lista.every((s, i) => encaja(s, i) && (!FIJO[i] || s === INICIAL[i]));
-  }
-  const CANDIDATOS = [...FILA].map((L, i) => (FIJO[i] ? [INICIAL[i]] : ELEMENTOS.filter((e) => e[1][0] === L).map((e) => e[1])));
-  // cuántas listas valen: se enumeran una a una
-  const TOTAL = (() => {
-    let n = 0;
-    const usados = new Set();
-    (function rec(i) {
-      if (i === 7) { n++; return; }
-      for (const s of CANDIDATOS[i]) if (!usados.has(s)) { usados.add(s); rec(i + 1); usados.delete(s); }
-    })(0);
-    return n;
-  })();
-  // con la última pista de texto se iluminan los candidatos de los puestos libres
-  const LETRAS_LIBRES = LIBRES.map((i) => FILA[i]).join('');
-  const N_BRILLAN = LIBRES.reduce((a, i) => a + CANDIDATOS[i].length, 0);
+  // con la última pista de texto se iluminan en la tabla los ganadores que faltan por colocar
+  const BRILLAN = LIBRES.map((i) => OFICIAL[i]);
+  const N_BRILLAN = BRILLAN.length;
 
   // casilla de cada elemento en la tabla: fila 1-7 los periodos, 8 hueco, 9 lantánidos, 10 actínidos
   function sitio(e) {
@@ -1112,7 +1098,7 @@ const ELEMENTOS = [
   }
 
   // ---------- estado y guardado ----------
-  const CLAVE = 'otros-siete-elementos-v1';
+  const CLAVE = 'otros-siete-elementos-v2'; // v2: lógica nueva; las partidas guardadas de la v1 no sirven
   const opciones = { sonido: true };
   const nuevo = () => ({ podio: INICIAL.slice(), pistas: 0, fallos: 0, resaltar: false, ganado: false, conSolucion: false, ultimaMala: null });
   function podioBueno(p) {
@@ -1205,7 +1191,7 @@ const ELEMENTOS = [
   tabla.querySelectorAll('.el').forEach((b) => CELDA.set(b.dataset.s, b));
   $('leyenda').innerHTML = Object.entries(FAMILIAS).map(([k, n]) => `<span><i style="--c:var(--${k})"></i>${n}</span>`).join('');
   const panel = $('panel');
-  panel.innerHTML = S.filas.map((f) => `<div class="panel-fila">${[...f].map((L) => `<span class="pieza" data-l="${L}">${L}<small></small></span>`).join('')}</div>`).join('');
+  panel.innerHTML = S.casillas.map((d, i) => `<span class="pieza" data-d="${i}" title="${d.t}"><b>${d.c}</b><em>${d.e}</em><small></small></span>`).join('');
 
   function medir() {
     const cw = (tabla.clientWidth - 17 * 2) / 18;
@@ -1231,7 +1217,7 @@ const ELEMENTOS = [
       b.classList.toggle('vacio', !e);
       b.classList.toggle('sel', selPuesto === i);
       b.setAttribute('aria-pressed', selPuesto === i ? 'true' : 'false');
-      b.setAttribute('aria-label', `${ord(i)} puesto: ${e ? e.es : 'vacío'}${FIJO[i] ? ', fijo' : ''}`);
+      b.setAttribute('aria-label', `${ordM(i)} puesto: ${e ? e.es : 'vacío'}${FIJO[i] ? ', fijo' : ''}`);
     });
   }
   function pintarTabla() {
@@ -1239,7 +1225,7 @@ const ELEMENTOS = [
     for (const [s, b] of CELDA) {
       b.classList.toggle('usado', usados.has(s));
       b.classList.toggle('elegido', selElem === s);
-      b.classList.toggle('brilla', est.resaltar && LETRAS_LIBRES.includes(s[0]));
+      b.classList.toggle('brilla', est.resaltar && BRILLAN.includes(s));
       b.setAttribute('aria-pressed', selElem === s ? 'true' : 'false');
     }
   }
@@ -1253,8 +1239,8 @@ const ELEMENTOS = [
     }
     const donde = est.podio.indexOf(e.s);
     let nota = '', poner = '';
-    if (donde >= 0 && FIJO[donde]) nota = `<p class="nota">Es el ${ord(donde)} ganador: lo dice el enunciado.</p>`;
-    else if (donde >= 0) nota = `<p class="nota">Está en el ${ord(donde)} puesto.${est.ganado || ocupado ? '' : ` <button class="enlace" data-quitar="${donde}">Quitarlo</button>`}</p>`;
+    if (donde >= 0 && FIJO[donde]) nota = `<p class="nota">Es el ${ordM(donde)} ganador: ya estaba en el podio.</p>`;
+    else if (donde >= 0) nota = `<p class="nota">Está en el ${ordM(donde)} puesto.${est.ganado || ocupado ? '' : ` <button class="enlace" data-quitar="${donde}">Quitarlo</button>`}</p>`;
     if (!est.ganado && !ocupado && !(donde >= 0 && FIJO[donde])) {
       poner = `<div class="poner"><span>${donde >= 0 ? 'Moverlo al:' : 'Ponerlo en el:'}</span>` + LIBRES.map((i) => {
         const otro = est.podio[i];
@@ -1347,15 +1333,15 @@ const ELEMENTOS = [
   function apuntar() { hist.push(est.podio.slice()); if (hist.length > 300) hist.shift(); }
   function colocar(s, i) {
     if (ocupado || est.ganado || !EL.has(s)) return false;
-    if (FIJO[i]) { aviso(`El ${ord(i)} puesto es del ${EL.get(INICIAL[i]).es}: lo dice el enunciado.`); return false; }
+    if (FIJO[i]) { avisoFijo(i); return false; }
     const ya = est.podio.indexOf(s);
-    if (ya >= 0 && FIJO[ya]) { aviso(`${cap(nombreDe(EL.get(s)))} es el ${ord(ya)} ganador: no se mueve.`); return false; }
+    if (ya >= 0 && FIJO[ya]) { aviso(`${cap(nombreDe(EL.get(s)))} es el ${ordM(ya)} ganador: no se mueve.`); return false; }
     if (ya === i) return false;
     apuntar();
     if (ya >= 0) est.podio[ya] = null;
     est.podio[i] = s;
     selPuesto = null; selElem = null;
-    decir(`${frase('poner')} ${ord(i)} puesto: ${nombreDe(EL.get(s))}.`);
+    decir(`${frase('poner')} ${ordM(i)} puesto: ${nombreDe(EL.get(s))}.`);
     girarBombo();
     cambiado();
     if (!revisarFinal()) sonar('poner');
@@ -1363,12 +1349,12 @@ const ELEMENTOS = [
   }
   function quitar(i) {
     if (ocupado || est.ganado) return;
-    if (FIJO[i]) { aviso(`El ${ord(i)} puesto es del ${EL.get(INICIAL[i]).es}: lo dice el enunciado.`); return; }
+    if (FIJO[i]) { avisoFijo(i); return; }
     const s = est.podio[i];
     if (!s) return;
     apuntar();
     est.podio[i] = null; selElem = null;
-    decir(`${frase('quitar')} Has quitado ${nombreDe(EL.get(s))} del ${ord(i)} puesto.`);
+    decir(`${frase('quitar')} Has quitado ${nombreDe(EL.get(s))} del ${ordM(i)} puesto.`);
     sonar('quitar');
     cambiado();
   }
@@ -1378,17 +1364,15 @@ const ELEMENTOS = [
     juzgar('wahwah');
     return true;
   }
-  // lista completa: premio, «casi» (no cuenta como fallo) o fallo; el sonido del fallo depende de quién pregunta
+  // lista completa: premio o fallo (con mensaje propio si son los siete pero en otro orden); el sonido depende de quién pregunta
   function juzgar(sonidoFallo) {
     const v = veredicto(est.podio);
     if (v === 'vale') { victoria(false); return; }
-    if (v === 'casi') { sonar('no'); decir(MSG_CASI); return; }
     contarFallo();
     sonar(sonidoFallo);
-    // a las listas que solo están ordenadas se les dice que ordenar no es la lógica (el aviso anterior hacía creer que el orden era el bueno)
     const motivo = {
-      orden: 'No cuadra. Ordenarlos por el abecedario o por el número atómico no es la lógica del sorteo.',
-      domino: 'No cuadra. Encadenar las cifras de los números atómicos no es la lógica del sorteo.',
+      enunciado: 'Así no cumple el enunciado: el estaño y el cobre, por ese orden, estuvieron entre los cuatro últimos.' + (losSiete(est.podio) ? ' ¡Pero son los siete!' : ''),
+      conjunto: S.conjunto,
     };
     decir((motivo[v] || 'No cuadra. Los premios no cayeron al azar.') +
       (est.fallos >= 3 ? ' ¿Te echo una mano? Pulsa 💡 Pista.' : ''));
@@ -1401,11 +1385,11 @@ const ELEMENTOS = [
   function tocarPuesto(i) {
     if (ocupado) return;
     if (est.ganado) { aviso('Ya está resuelto. Pulsa ⟲ Reiniciar para jugar otra vez.'); return; }
-    if (FIJO[i]) { aviso(`El ${ord(i)} puesto es del ${EL.get(INICIAL[i]).es}: lo dice el enunciado.`); return; }
+    if (FIJO[i]) { avisoFijo(i); return; }
     if (selElem && est.podio[i] !== selElem) { colocar(selElem, i); return; }
     if (est.podio[i]) { quitar(i); return; }
     selPuesto = selPuesto === i ? null : i;
-    decir(selPuesto === null ? MSG_INICIO : `Ahora elige en la tabla al ${ord(i)} ganador.`);
+    decir(selPuesto === null ? MSG_INICIO : `Ahora elige en la tabla al ${ordM(i)} ganador.`);
     sonar('clic');
     pintar();
   }
@@ -1467,16 +1451,16 @@ const ELEMENTOS = [
     if (est.pistas < N_TEXTO) {
       est.pistas++;
       if (est.pistas === N_TEXTO) est.resaltar = true; // con la última pista de texto se iluminan los candidatos
-      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1] + (est.pistas === N_TEXTO ? ` <span class="nota">Te he iluminado en la tabla los ${N_BRILLAN} elementos que pueden servir.</span>` : ''));
+      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1] + (est.pistas === N_TEXTO ? ` <span class="nota">Te he iluminado en la tabla los ${N_BRILLAN} ganadores que faltan.</span>` : ''));
       decir(frase('pista'));
       sonar('pista');
       cambiado();
       return;
     }
-    // antes de colocar, señala los puestos que no encajan
-    const mal = LIBRES.filter((i) => est.podio[i] && !encaja(est.podio[i], i));
+    // antes de colocar, señala los puestos que no son los de la lista
+    const mal = LIBRES.filter((i) => est.podio[i] && est.podio[i] !== OFICIAL[i]);
     if (mal.length) {
-      const lista = mal.map((i) => `<li>El ${ord(i)}, ${nombreDe(EL.get(est.podio[i]))}: el símbolo tiene que empezar por ${FILA[i]}.</li>`).join('');
+      const lista = mal.map((i) => `<li>El ${ord(i)}, ${nombreDe(EL.get(est.podio[i]))}: no es el ganador de ese puesto.</li>`).join('');
       abrirModal(`<h2>ANTES DE LA PISTA</h2><p>${mal.length === 1 ? 'Hay un ganador que no encaja:' : `Hay ${mal.length} ganadores que no encajan:`}</p><ul style="text-align:left;margin:6px auto;max-width:460px;padding-left:22px">${lista}</ul>` +
         `<div class="pie"><button class="boton b-pista" data-a="quitar">Quitar${mal.length === 1 ? 'lo' : 'los'} y ver la pista</button><button class="boton" data-a="no">Ahora no</button></div>`, (c) => {
         c.querySelector('[data-a="quitar"]').onclick = () => { apuntar(); for (const i of mal) est.podio[i] = null; cerrarModal(); sonar('quitar'); cambiado(); pedirPista(); };
@@ -1490,8 +1474,8 @@ const ELEMENTOS = [
     est.podio[i] = OFICIAL[i];
     est.pistas++;
     selPuesto = null; selElem = null;
-    mostrarPista(est.pistas, `Te coloco un ganador: el ${ord(i)} puesto es para ${nombreDe(EL.get(OFICIAL[i]))}.`);
-    decir(`${ord(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
+    mostrarPista(est.pistas, `Te coloco un ganador: el ${ordM(i)} puesto es para ${nombreDe(EL.get(OFICIAL[i]))}.`);
+    decir(`${ordM(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
     girarBombo();
     cambiado();
     if (!revisarFinal()) sonar('pista');
@@ -1512,7 +1496,7 @@ const ELEMENTOS = [
     for (const i of LIBRES) {
       est.podio[i] = OFICIAL[i];
       guardar(); pintar(); sonar('poner'); girarBombo();
-      decir(`🔑 ${ord(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
+      decir(`🔑 ${ordM(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
       await espera(900); if (t !== tok) return;
     }
     victoria(true, t);
@@ -1524,14 +1508,14 @@ const ELEMENTOS = [
   }
   function cerrarPremio() { premio.hidden = true; }
   function encender(i) {
-    const s = est.podio[i], e = EL.get(s), k = panel.querySelector(`[data-l="${FILA[i]}"]`);
+    const s = est.podio[i], e = EL.get(s), k = panel.querySelector(`[data-d="${i}"]`);
     k.classList.add('on'); k.style.setProperty('--c', `var(--${e.f})`); k.querySelector('small').textContent = s;
   }
   function volar(i, t) {
     return new Promise((res) => {
       const fin = () => { if (t === tok) { encender(i); sonar('nota' + i); } res(); };
       const desde = PUESTOS[i].querySelector('.losa').getBoundingClientRect();
-      const hasta = panel.querySelector(`[data-l="${FILA[i]}"]`).getBoundingClientRect();
+      const hasta = panel.querySelector(`[data-d="${i}"]`).getBoundingClientRect();
       if (reducido || !desde.width || !hasta.width) { setTimeout(fin, 280); return; }
       const e = EL.get(est.podio[i]), v = document.createElement('div');
       v.className = 'vuelo'; v.textContent = e.s;
@@ -1546,12 +1530,14 @@ const ELEMENTOS = [
       setTimeout(() => { v.remove(); fin(); }, 500);
     });
   }
-  // textos de Cowork (§6); los que dicen el truco vienen cifrados en S
+  // el texto que explica el truco viene cifrado en S
   function textoPremio() {
-    if (est.conSolucion) return `<p>${S.premioSolucion.replace('{N}', `<b>${TOTAL}</b>`)}</p><p>Pulsa ⟲ Reiniciar y busca la tuya.</p>`;
-    const oficial = est.podio.every((s, i) => s === OFICIAL[i]);
-    return `<p>${S.premio}</p><p>Hay <b>${TOTAL}</b> listas que encajan, y la tuya es una de ellas.${oficial ? ' Además, es la lista oficial.' : ''}</p>` +
-      `<p><b>${est.pistas === 0 ? 'Sin pistas. ¡Enhorabuena!' : est.pistas === 1 ? 'Con 1 pista.' : `Con ${est.pistas} pistas.`}</b></p>`;
+    if (est.conSolucion) return `<p>${S.premio}</p><p>Es la única lista que encaja. Pulsa ⟲ Reiniciar y juega tú.</p>`;
+    // se enseñan también las listas rechazadas, para que quien fuerce el orden lo vea en su resultado (Cowork)
+    const pistas = est.pistas === 0 ? 'Sin pistas' : est.pistas === 1 ? 'Con 1 pista' : `Con ${est.pistas} pistas`;
+    const fallos = est.fallos === 0 ? 'y a la primera' : est.fallos === 1 ? 'y 1 lista rechazada' : `y ${est.fallos} listas rechazadas`;
+    return `<p>${S.premio}</p><p>Es la única lista que encaja, y la has encontrado.</p>` +
+      `<p><b>${pistas} ${fallos}.${est.pistas === 0 && est.fallos === 0 ? ' ¡Enhorabuena!' : ''}</b></p>`;
   }
   async function victoria(conSol, t0) {
     const t = t0 || ++tok;
@@ -1701,9 +1687,9 @@ const ELEMENTOS = [
   else { msg.innerHTML = `${frase('inicio')} ${MSG_INICIO}`; esperar(); }
   pintar();
 
-  // para el robot de pruebas
+  // para el robot de pruebas (sin la lista oficial ni los que se iluminan: que destripar cueste algo, Cowork)
   window.OSE = {
-    ELEMENTOS, FILA, OFICIAL, N_PISTAS, total: TOTAL, nBrillan: N_BRILLAN, candidatos: CANDIDATOS, valida, veredicto, sonados,
+    ELEMENTOS, N_PISTAS, nBrillan: N_BRILLAN, valida, veredicto, sonados,
     estado: () => JSON.parse(JSON.stringify({ est, selPuesto, selElem, ocupado, hist: hist.length, directo })),
   };
 })();
