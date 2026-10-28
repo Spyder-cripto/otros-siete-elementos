@@ -1034,8 +1034,9 @@ const ELEMENTOS = [
   const FIJO = INICIAL.map(Boolean);
   const LIBRES = [0, 1, 2, 3, 4, 5, 6];
   const N_TEXTO = S.pistas.length; // pistas que solo dicen algo
-  // Fali (28-oct): solo las pistas de texto; ya no hay pistas que colocan ganadores ni tabla iluminada
-  const N_PISTAS = N_TEXTO;
+  // Fali (28-oct): dos pistas de texto y una tercera que coloca a los ganadores 4.º y 5.º; sin tabla iluminada
+  const PISTA_COLOCA = [3, 4];
+  const N_PISTAS = N_TEXTO + 1;
   const FAMILIAS = { alc: 'alcalinos', alt: 'alcalinotérreos', tra: 'metales de transición', pos: 'otros metales', met: 'metaloides', nom: 'no metales', hal: 'halógenos', gas: 'gases nobles', lan: 'lantánidos', act: 'actínidos' };
   const TEXTOS_PISTA = S.pistas;
   const MSG_INICIO = 'Toca un puesto libre del podio y luego un elemento de la tabla, o al revés.';
@@ -1463,25 +1464,18 @@ const ELEMENTOS = [
       return;
     }
     if (est.pistas >= N_PISTAS) { decir('No hay más pistas. Si te rindes, pulsa 🔑 Solución.'); sonar('no'); return; }
-    // antes de colocar, señala los puestos que no son los de la lista
-    const mal = LIBRES.filter((i) => est.podio[i] && est.podio[i] !== OFICIAL[i]);
-    if (mal.length) {
-      const lista = mal.map((i) => `<li>El ${ord(i)}, ${nombreDe(EL.get(est.podio[i]))}: no es el ganador de ese puesto.</li>`).join('');
-      abrirModal(`<h2>ANTES DE LA PISTA</h2><p>${mal.length === 1 ? 'Hay un ganador que no encaja:' : `Hay ${mal.length} ganadores que no encajan:`}</p><ul style="text-align:left;margin:6px auto;max-width:460px;padding-left:22px">${lista}</ul>` +
-        `<div class="pie"><button class="boton b-pista" data-a="quitar">Quitar${mal.length === 1 ? 'lo' : 'los'} y ver la pista</button><button class="boton" data-a="no">Ahora no</button></div>`, (c) => {
-        c.querySelector('[data-a="quitar"]').onclick = () => { apuntar(); for (const i of mal) est.podio[i] = null; cerrarModal(); sonar('quitar'); cambiado(); pedirPista(); };
-        c.querySelector('[data-a="no"]').onclick = cerrarModal;
-      });
-      return;
-    }
-    const i = LIBRES.find((j) => !est.podio[j]);
-    if (i === undefined) { revisarFinal(); return; }
+    // la pista 3 coloca a los ganadores 4.º y 5.º (quita lo que hubiera en esos puestos, y los saca de donde estuvieran)
     apuntar();
-    est.podio[i] = OFICIAL[i];
+    for (const k of PISTA_COLOCA) {
+      const ya = est.podio.indexOf(OFICIAL[k]);
+      if (ya >= 0 && ya !== k) est.podio[ya] = null;
+      est.podio[k] = OFICIAL[k];
+    }
     est.pistas++;
     selPuesto = null; selElem = null;
-    mostrarPista(est.pistas, `Te coloco un ganador: el ${ordM(i)} puesto es para ${nombreDe(EL.get(OFICIAL[i]))}.`);
-    decir(`${ordM(i)} puesto: ${nombreDe(EL.get(OFICIAL[i]))}.`);
+    const [a, c] = PISTA_COLOCA.map((k) => [k, nombreDe(EL.get(OFICIAL[k]))]);
+    mostrarPista(est.pistas, `Te coloco dos ganadores: el ${ordM(a[0])} puesto es para ${a[1]}, y el ${ord(c[0])}, para ${c[1]}.`);
+    decir(`${ord(a[0])} y ${ord(c[0])} puestos: ${a[1]} y ${c[1]}.`);
     girarBombo();
     cambiado();
     if (!revisarFinal()) sonar('pista');
