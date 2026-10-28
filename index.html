@@ -1026,15 +1026,16 @@ const ELEMENTOS = [
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i) ^ clave.charCodeAt(i % clave.length);
     return JSON.parse(new TextDecoder().decode(bytes));
   }
-  const S = descifrar('FFYdCRpOGggJVl92Ry0CT0lMMgpRQ1Y6CFEBUToLVkkPJhlHQUc+Fk1fTTUHTS4BUQoEBwxBCQ0WT181D00QTU5QI1EBUR1HTkdBEAIAHkdCVgpRVVY+Gh1MURRJD0dOR1ZHIEdCVhtRVVYfDgFZFhpHWEdIR1ZHIAQcAApRElgJTRAPSUs9VkkPEU5fTwgHt8YBDBseCgAPX0sAVl8PKAkXDhAcHQBRElgJTRAPSUsvVkkPEU5fTw8bERkWHFZeTRYPSUsvt99dDBgAH0cTWBRRDFZITSUPX0sRVl8PEwUAHwsLB01fTRFQVVF7FgcQB0dQSRdHDkdUVjxRQ1YGTUkPAKrEFgRJCk5JTwBMTk0gDgAHHR1CURRJD0dOR1ZHKUdCVhtRVVYWAB5EHQ4KVkkPAE5fTzYBGE0OMlhQHxpeBwgWVl92Ry0UGKbDVAEcTxkTARdMUwUEVBRYpsEIBAYPWk82A1QXHAdMsNgKVBwNAABFDgoMBgpTFhVSHBYNBxsEFgRHBA4EA0ULGk8fDlQzAQdEFKrZEQFMAY7ly0UXVAEcTxEADh0NHwYWVKaXCwUGAhZAVkNRPB0XGxYNAxsAGQxCFkJFr9o/AazaTwIbCh1IUw0AVBZEABgATQAAVBwaCgAXUFEBUSQABgZYFwUKj+XIVAIarN0ADBxBFhpLVKeSJg0WGAQCHQsSC0tQQ1FuEg0EVAHuyA1FCQBOGA5THBEfDh1MUwwWAARPBEwBCAEHFw4XAFQTTwZDUwgWABdCRUQAAUUdt84RDhAdQ1NMUzoEABBfCwNeTQACVAscAh0cCBwBUwgJVDZCCUVJTRxOFw4XDlQTHAdfHEkREQvuyA1FHhBOGQoHDhhSCxZeFwxFGApeRQ0JHBAHGQYAGxUBVVNgEhsREUkNAABFBQwLBh0cVFQ4rMldGh0ABkkNAABFCBYaFazCAFpQQ1FhEkkpAQtMSUwJDEUeGA4HDk9SORZDBhpJVABBRQ8KDxcLT08gDgAHHR1CX0kAGEVdCQMIAl5OEQNTPBseQ1NIH0kKBgoDRzFJTwYBGgUGAQAdTUkPscg2GwsNCQMWTRYHERsWTlQiCgFCUwcKVABDRQkWCEUBBgsWAVpQQ1FKGhsEEAQPX06nzCAdVAMSTwcXAhJDEkhFJABfCkwAHhELVBwcHQAXAFNBEkkAGRVEABYETQAAVAMGAREBQVEBURkXEQhECk5fTykBB08ABhEGClNAFh0EGABeRQgATQkPVC4dGx0VrM9IFwgBWEVOBAgETRAAG08QABpSHAYNEhoRBgoBRRVFAQodVA4AGwYdHFNIHUkAGEVCFwgAA0UKEU8fAAdSUxETF6rIFRYNAQlFAQROBwoeDhoTU1xPTVNFGBBDAB9FRSkbGg5aQ1QCAxJZElJFGQRfEQkWTU0jFR0HCl1eTxtEFhsXG14NCAWmxBcNGwMWHFRaIhZfEBwXHQoESUwICBcNAR0aAE9SBQZIBQwWVE1nptYVBBELBkZfTxEBGxLuwgZeVBNEAB4LCBZOXDkWAQEBRl8NEAYHBgAWRR+mzAcPEABTRycTGwZfHQZMWEVdCQMIAl5OEAAeBhoVAFMFIAYJXUkNCh4KQ0VSBx8SAVQRAxJeAFQ5VgtCEQ05T1tGMQNTHLfTDRJJHEkcVABBRQgKAAwAEwBTHxEACxpIAQYLVABDRQkWHQStxQAfTxEeTx1CHgsXEUVJAEwWGEUPBxsBAFhSHxZfHEkAGkVECwsJrswdVAMcTxcdAQBIAR8EGl8NWQVbPgQaAR0XDg1OQBoTX0lZHVt+EAIBDBxSWwZNQV1OQABdEgdbVhg=');
+  const S = descifrar('FFYdCRpOGggJVl92Ry0CT0lMMgpRQ1Y6CFEBUToLVkkPJhlHQUc+Fk1fTTUHTS4BUQoEBwxBCQ0WT181D00QTU5QI1EBUR1HTkdBEAIAHkdCVgpRVVY+Gh1MURRJD0dOR1ZHIEdCVhtRVVYfDgFZFhpHWEdIR1ZHIAQcAApRElgJTRAPSUs9VkkPEU5fTwgHt8YBDBseCgAPX0sAVl8PKAkXDhAcHQBRElgJTRAPSUsvVkkPEU5fTw8bERkWHFZeTRYPSUsvt99dDBgAH0cTWBRRDFZITSUPX0sRVl8PEwUAHwsLB01fTRFQVVF7FgcQB0dQSRdHDkdUVjxRQ1YGTUkPAKrEFgRJCk5JTwBMTk0gDgAHHR1CURRJD0dOR1ZHKUdCVhtRVVYWAB5EHQ4KVkkPAE5fTzYBGE0OMlhQHxpeBwgWVl92Ry0UGKbDVAEcTxkTARdMUwUEVBRYpsEIBAYPWk82A1QXHAdMsNgKVBwNAABFDgoMBgpTFhVSHBYNBxsEFgRHBA4EA0ULGk8fDlQzAQdEFKrZEQFMAY7ly0UXVAEcTxEADh0NHwYWVKaXCwUGAhZAVkNRKhhSCgBZEqrUG0kNL6/fHQwaER1dTSleTRBCHQMQGhFCR1ZHr8Q9GwFTAxsBTwBEFh0AVUV9AB4KTQsBVAodTxEBClNCAQ0AGksPSU4CBBcPEA5RVVawzjZeUwUEVBZICA0LDEROJAoBAFQXHAdIUxoKBhFICkwJDEULGR8aCg4TTxZDUwUQGgBeS05JTxUcEQIaAFZITT9CAEkWHQBZAEwICBEPGAoATxAXTx9MUygLAAxKptAACQQKWE8QDhATTwZDHEkGGwsNFhlFDBYaBgBfTw1SAxxeUwgWABdCFkwAA0ULGE8cHRAXAVNJFkkJGxYNWQ5bCabDFRxTCxFSAxINAAwIFQtMWUMHU19OGBodCgdSRz9YHQhMWEVdCQ0RDF5OGQ4BGxEBT1tgEhsREUwBRQQMCBccG1RTAh2xxgFOHAUAB0UFKAkXDhAcHQBaQ1QfCgFOBhsMG14NDxkAGwAdVEc5rM4CBgdIAUBJVABeEQ2m3ApVVBkaCgYcCgANWz8AGhBeTEBFDgoMBgpITwexzhFMFwZFXDZMERkXAwpHWE8DAxsfAEgNFwYIHQtKCkxNPgoCXUNTAAYdQVMRABkEGkVOCQ0WHlgyVgEcGxUuTU0FNgVFB6aMBw0BAkUXVAofTxAdAhpDFAZFBABfAQUAHwoAVAodTxEBHxLuwgYJVABBRQIKAAccEU8XClQBGlNMAB0XG0kNFQkXAkULGk8aARMerNpeUwUKVAZCCx8AHxMPGlVTUx1MPBJZBhsBFRwRSgVbQUVSHVEgGhoWDgoRXABbWkwRSh8VDAtQVhI=');
   const OFICIAL = S.oficial;
   // el podio arranca vacío: el enunciado solo habla del estaño y del cobre, sin más datos (Fali, 28-oct). El código de los
   // puestos fijos se queda por si vuelve a hacer falta
   const INICIAL = OFICIAL.map(() => null);
   const FIJO = INICIAL.map(Boolean);
   const LIBRES = [0, 1, 2, 3, 4, 5, 6];
-  const N_TEXTO = S.pistas.length; // pistas que solo dicen algo; las demás colocan un ganador
-  const N_PISTAS = N_TEXTO + LIBRES.length;
+  const N_TEXTO = S.pistas.length; // pistas que solo dicen algo
+  // Fali (28-oct): solo las pistas de texto; ya no hay pistas que colocan ganadores ni tabla iluminada
+  const N_PISTAS = N_TEXTO;
   const FAMILIAS = { alc: 'alcalinos', alt: 'alcalinotérreos', tra: 'metales de transición', pos: 'otros metales', met: 'metaloides', nom: 'no metales', hal: 'halógenos', gas: 'gases nobles', lan: 'lantánidos', act: 'actínidos' };
   const TEXTOS_PISTA = S.pistas;
   const MSG_INICIO = 'Toca un puesto libre del podio y luego un elemento de la tabla, o al revés.';
@@ -1121,7 +1122,7 @@ const ELEMENTOS = [
         podio: g.podio.slice(),
         pistas: Math.max(0, Math.min(N_PISTAS, g.pistas | 0)),
         fallos: Math.max(0, g.fallos | 0),
-        resaltar: !!g.resaltar, ganado: !!g.ganado && valida(g.podio), conSolucion: !!g.conSolucion,
+        resaltar: false, ganado: !!g.ganado && valida(g.podio), conSolucion: !!g.conSolucion,
         ultimaMala: typeof g.ultimaMala === 'string' ? g.ultimaMala : null,
       });
     }
@@ -1380,8 +1381,8 @@ const ELEMENTOS = [
       conjunto: S.conjunto,
     };
     decir((motivo[v] || 'No cuadra. Los premios no cayeron al azar.') +
-      (est.fallos >= 3 ? ' ¿Te echo una mano? Pulsa 💡 Pista.' : ''));
-    if (est.fallos >= 3) latido(bPista);
+      (est.fallos >= 3 ? (est.pistas < N_PISTAS ? ' ¿Te echo una mano? Pulsa 💡 Pista.' : ' Si te rindes, pulsa 🔑 Solución.') : ''));
+    if (est.fallos >= 3 && est.pistas < N_PISTAS) latido(bPista);
   }
   function contarFallo() {
     const k = est.podio.join(',');
@@ -1455,13 +1456,13 @@ const ELEMENTOS = [
     if (est.ganado) { aviso('Ya está resuelto.'); return; }
     if (est.pistas < N_TEXTO) {
       est.pistas++;
-      if (est.pistas === N_TEXTO) est.resaltar = true; // con la última pista de texto se iluminan los candidatos
-      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1] + (est.pistas === N_TEXTO ? ` <span class="nota">Te he iluminado en la tabla ${N_BRILLAN === 7 ? 'los siete ganadores' : `los ${N_BRILLAN} ganadores que faltan`}.</span>` : ''));
+      mostrarPista(est.pistas, TEXTOS_PISTA[est.pistas - 1]);
       decir(frase('pista'));
       sonar('pista');
       cambiado();
       return;
     }
+    if (est.pistas >= N_PISTAS) { decir('No hay más pistas. Si te rindes, pulsa 🔑 Solución.'); sonar('no'); return; }
     // antes de colocar, señala los puestos que no son los de la lista
     const mal = LIBRES.filter((i) => est.podio[i] && est.podio[i] !== OFICIAL[i]);
     if (mal.length) {
